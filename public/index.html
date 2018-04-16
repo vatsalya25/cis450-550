@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<base href="/">
+
+	<title>Starter Node and Angular</title>
+
+	<!-- custom styles -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link href='https://fonts.googleapis.com/css?family=Droid+Sans:bold|Droid+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Terminal+Dosis:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="libs/angular/angular.min.js"></script>
+	<script src="libs/angular-route/angular-route.min.js"></script>
+
+	<!-- ANGULAR CUSTOM -->
+	<script src="js/controllers/MainCtrl.js"></script>
+	<script src="js/controllers/LoginCtrl.js"></script>
+	<script src="js/services/LoginService.js"></script>
+	<script src="js/controllers/GeekCtrl.js"></script>
+	<script src="js/services/GeekService.js"></script>
+	<script src="js/appRoutes.js"></script>
+	<script src="js/app.js"></script>
+
+</head>
+
+<body class="home w3-light-grey" ng-app="sampleApp" ng-controller="MainController">
+	<header class="w3-bar w3-white w3-border-bottom w3-xlarge">
+		<a href="/" class="w3-bar-item w3-button w3-text-red w3-hover-red">
+			<b><i class="fa fa-map-marker w3-margin-right"></i>GoodSuggest</b>
+		</a>
+		<a href="#" class="nav-account w3-bar-item w3-button w3-right w3-hover-red w3-text-grey" ng-click="toggleAccountOptions()">
+			<i class="fa fa-user"></i>
+			<div>Account</div>
+		</a>
+	</header>
+
+	<!-- Account options -->
+	<ul id="newUserOptions" class="account-options hidden w3-white">
+		<li class="option w3-hover-red" ng-click="toggleLoginPopup()">Login</li>
+	</ul>
+
+	<ul id="registeredUserOptions" class="account-options hidden w3-white">
+		<li class="option w3-hover-red"><a href="/account">Account</a></li>
+		<li class="option w3-hover-red"><a href="/recommendations">Recommendations</a></li>
+		<li class="option w3-hover-red"><a href="/logout">Log out</a></li>
+	</ul>
+
+
+	<div class="container home-container w3-dark-grey w3-display-container w3-content w3-hide-small">
+		<div class="w3-display-middle recommend-box">
+			<div class="w3-bar w3-black">
+				<button class="w3-bar-item w3-button tablink w3-red" ng-click="openLink($event, 'Books')"><i class="fa fa-book w3-margin-right"></i>Books</button>
+				<button class="w3-bar-item w3-button tablink" ng-click="openLink($event, 'Movies')"><i class="fa fa-film w3-margin-right"></i>Movies</button>
+				<button class="w3-bar-item w3-button tablink" ng-click="openLink($event, 'Both')"><i class="fa fa-file-video-o w3-margin-right"></i>Both</button>
+			</div>
+
+			<!-- Tabs -->
+			<div id="Books" class="w3-container w3-white w3-padding-16 myLink">
+				<h3>Enter books for the search</h3>
+				<div class="w3-row-padding input-container" style="margin:0 -16px;">
+					<div class="w3-half single-input">
+						<label>By Name</label>
+						<input id="searchBookName" class="genre-search w3-input w3-border" type="text" placeholder="Names">
+					</div>
+					<div class="w3-half single-input">
+						<label>By Genre</label>
+						<input id="searchBookGenre" class="genre-search w3-input w3-border" type="text" placeholder="Genres" ng-model="genreText" ng-click="addGenreSearch()">
+						<div class="genre-selected-tags">
+							<div class="tag w3-light-grey" ng-repeat="tag in selectedGenres">
+								<div class="text">{{tag}}</div>
+								<i class="fa fa-close" ng-click="removeSelectedTag(tag)"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p><button class="recommend-btn w3-button w3-dark-grey">Recommend Books</button></p>
+			</div>
+
+			<div id="Movies" class="w3-container w3-white w3-padding-16 myLink">
+				<h3>Enter movies for the search</h3>
+				<div class="w3-row-padding input-container" style="margin:0 -16px;">
+					<div class="w3-half single-input">
+						<label>By Name</label>
+						<input id="searchMovieName" class="genre-search w3-input w3-border" type="text" placeholder="Names">
+					</div>
+					<div class="w3-half single-input">
+						<label>By Genre</label>
+						<input id="searchMovieGenre" class="genre-search w3-input w3-border" type="text" placeholder="Genres" ng-model="genreText" ng-click="addGenreSearch()">
+						<div class="genre-selected-tags">
+							<div class="tag w3-light-grey" ng-repeat="tag in selectedGenres">
+								<div class="text">{{tag}}</div>
+								<i class="fa fa-close" ng-click="removeSelectedTag(tag)"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p><button class="recommend-btn w3-button w3-dark-grey">Recommend Movies</button></p>
+			</div>
+
+			<div id="Both" class="w3-container w3-white w3-padding-16 myLink">
+				<h3>Enter books and movies for the search</h3>
+				<div class="w3-row-padding input-container" style="margin:0 -16px;">
+					<div class="w3-half single-input">
+						<label>By Name</label>
+						<input id="searchAllName" class="genre-search w3-input w3-border" type="text" placeholder="Names">
+					</div>
+					<div class="w3-half single-input">
+						<label>By Genre</label>
+						<input id="searchAllGenre" class="genre-search w3-input w3-border" type="text" placeholder="Genres" ng-model="genreText" ng-click="addGenreSearch()">
+						<div class="genre-selected-tags">
+							<div class="tag w3-light-grey" ng-repeat="tag in selectedGenres">
+								<div class="text">{{tag}}</div>
+								<i class="fa fa-close" ng-click="removeSelectedTag(tag)"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p><button class="recommend-btn w3-button w3-dark-grey">Recommend Books and Movies</button></p>
+			</div>
+
+			<ul class="genre-suggestions w3-light-grey" ng-if="genreSearchActive">
+				<li ng-repeat="item in genreSuggestionList | filter:genreText:strict" class="genre-list-item" ng-click="selectGenreItem(item)">{{item}}</li>
+			</ul>
+		</div>
+
+	</div>
+	<!-- ANGULAR DYNAMIC CONTENT -->
+	<div ng-view></div>
+
+	<!-- LOGIN POPUP -->
+	<div class="auth-popup" ng-if="loginAttempt">
+		<div class="auth-box w3-grey">
+			<div class="auth-header w3-black">
+				<div class="auth-heading">Authentication</div>
+				<div class="auth-close w3-hover-red" ng-click="toggleLoginPopup()">
+					<i class="fa fa-close fa-lg w3-text-light-grey"></i>
+				</div>
+			</div>
+			<div class="box login-container">
+				<div class="auth-field w3-dark-grey">
+					<i class="fa fa-user w3-text-light-grey"></i>
+					<input type="text" id="loginUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
+				</div>
+				<div class="auth-field w3-dark-grey">
+					<i class="fa fa-lock w3-text-light-grey"></i>
+					<input type="password" id="loginPassword" autocomplete="off" class="auth-field-input password" placeholder="Password" />
+				</div>
+				<div class="auth-btn loginBtn w3-hover-red" ng-click="verifyLogin()">
+					<div class="auth-btn-text">Login</div>
+				</div>
+			</div>
+			<div class="box register-container">
+				<div class="auth-field w3-dark-grey">
+					<i class="fa fa-user w3-text-light-grey"></i>
+					<input type="text" id="registerUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
+				</div>
+				<div class="auth-field w3-dark-grey">
+					<i class="fa fa-lock w3-text-light-grey"></i>
+					<input type="password" id="registerPassword" autocomplete="off" class="auth-field-input password" placeholder="Password" />
+				</div>
+				<div class="auth-field confirm-password-field w3-dark-grey">
+					<i class="fa fa-lock w3-text-light-grey"></i>
+					<input type="password" id="registerConfirmPassword" autocomplete="off" class="auth-field-input password" placeholder="Confirm Password" />
+				</div>
+				<div class="auth-btn registerBtn w3-hover-red" ng-click="registerUser()">
+					<div class="auth-btn-text">Register</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-if="loginAttempt" class="popup-overlay"></div>
+	<div class="warning hidden">To and subject fields cannot be left empty</div>
+</body>
+
+</html>
