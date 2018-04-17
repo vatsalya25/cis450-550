@@ -18,6 +18,21 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     console.log('bookGenres fetch err ', data);
   });
 
+  // GET the POPULAR books and movies
+  $http({method: 'GET', url: '/api/popularBooks'}).then(function(data) {
+    $scope.popularBooks = data.data;
+    console.log("popular books fetched");
+  }).catch(function(data) {
+    console.log('popular books err ', data);
+  });
+
+  $http({method: 'GET', url: '/api/popularMovies'}).then(function(data) {
+    $scope.popularMovies = data.data;
+    console.log("popular movies fetched");
+  }).catch(function(data) {
+    console.log('popular movies fetch err ', data);
+  });
+
   $scope.loginAttempt = false;
   $scope.openLink = function(evt, linkName) {
     var i,

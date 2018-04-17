@@ -136,8 +136,29 @@
 		</div>
 
 	</div>
+
+	<!-- Show Latest content -->
+	<div class="popular-container w3-center">
+		<div class="w3-half popular-column w3-container w3-white">
+			<h3 class="title w3-margin-bottom w3-margin-top">Popular Books</h3>
+			<div class="popular-list w3-margin-bottom">
+				<div class="popular-item w3-margin-bottom" ng-repeat="item in popularBooks">{{item.name}}</div>
+			</div>
+		</div>
+		<div class="w3-half popular-column w3-container w3-light-grey">
+			<h3 class="title w3-margin-bottom w3-margin-top">Popular Movies</h3>
+			<div class="popular-list w3-margin-bottom">
+				<div class="popular-item w3-margin-bottom" ng-repeat="item in popularMovies">{{item.name}}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="w3-container w3-black w3-full">
+		...
+	</div>
+
 	<!-- ANGULAR DYNAMIC CONTENT -->
-	<div ng-view></div>
+	<!-- <div ng-view></div> -->
 
 	<!-- LOGIN POPUP -->
 	<div class="auth-popup" ng-if="loginAttempt">
