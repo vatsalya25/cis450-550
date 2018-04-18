@@ -112,6 +112,36 @@ module.exports = function(app) {
 
   // added by Sandy
 
+  //LOGIN API: checks if user email already exists in database, if not, will create new user
+  //Otherwise signs the user in 
+ app.get('/api/userDiff/:user', function(request, response) {
+    inDatabase = []
+    connection.query('select exists(select * from cis550.USERS where cis550.USERS.email = "syin@gmail.com")', request.params.user, function(err,res))
+    
+    //create new user
+    connection.query('INSERT INTO cis550.USERS VALUES (first_name, last_name, UUID(), email, password, gender)', request.params.user, function(err, res) {
+    
+    //login user: return true if user password and email in db
+    connection.query('select exists(select * from cis550.USERS where cis550.USERS.email = "syin@gmail.com" and cis550.USERS.password = "hola")', request.params.user, function(err, res) {
+
+      if (err)
+        response.send({err: err});
+      var result = [];
+      inDatabase = res.FIELD //use this in the future
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result); //can only do this once
+    });
+  });
+
+  //DISPLAY WATCHLIST MOVIES
+  app.get('/api/allGenres', function(req, res) {
+    res.send({'genre': 'something'});
+  });
+
+  
   app.get('/api/allGenres', function(req, res) {
     res.send({'genre': 'something'});
   });
