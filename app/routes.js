@@ -66,47 +66,96 @@ module.exports = function(app) {
   });
 
   // added by Kara
-  app.get('/api/topRated', function(request, response) {
-    connection.query('SELECT TOP(10) b.title, m.title FROM cis550.BOOKS b, cis550.MOVIES m ORDER BY rating DESC;', function(err, res) {
+
+  /////////////////////////////////////////////////////////
+  //Guest
+  ///////////////////////////////////////////////////////////
+
+  // Search based on list of genres guest user inputs:book_genre -> books
+  app.get('/api/guestBookGenreSearchBook/:user', function(request, response) {
+    connection.query("SELECT b.title, b.rating FROM cis550.BOOKS b WHERE b.rating >= 4 AND b.id IN (SELECT DISTINCT(book_id) FROM cis550.BOOK_GENRES WHERE genre IN user=?) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({book_name: item.b.title, movie_name: item.m.title});
+        result.push({name: item.b.title, rating: item.b.rating});
       });
 
       response.send(result);
     });
   });
 
-  // get user's favorites(their top 10% of all read or watched) Needs user_id
-  app.get('/api/userFavs/:user', function(request, response) {
-    connection.query('SELECT TOP 10 PERCENT br.title, mw.title FROM (SELECT r.user_id, b.title FROM cis550.BOOKS b JOIN cis550.READ r ON b.id = r.book_id WHERE user=? ORDER BY r.rating DESC) br, (SELECT w.user_id, m.title FROM cis550.MOVIES m JOIN cis550.WATCHED w ON m.id = w.movie_id WHERE user=? ORDER BY w.rating DESC) mw ', request.params.user, function(err, res) {
+  // Search based on list of genres guest user inputs: book_genre -> movies
+  app.get('/api/guestBookGenreSearchMovie/:user', function(request, response) {
+    connection.query("SELECT m.title, m.rating FROM cis550.MOVIES m WHERE m.rating >= 8 AND m.id IN (SELECT mg.movie_id FROM cis550.MOVIE_GENRES mg WHERE mg.genre IN (SELECT movie_genre FROM cis550.GENRES WHERE book_genre IN user=?))) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({Books: item.b.title, Movies: item.m.title});
+        result.push({name: item.m.title, rating: item.m.rating});
       });
-      console.log(request.params.name);
+
       response.send(result);
     });
   });
 
-  // This users ratings compared to our average user's ratings Needs user_id
-  // OPTIONAL AND NOT COMPLETED YET
-  app.get('/api/userDiff/:user', function(request, response) {
-    connection.query('Select From READ r, Watched w', request.params.user, function(err, res) {
+  // Search based on list of genres guest user inputs:movie_genre -> books
+  app.get('/api/guestMovieGenreSearchBook/:user', function(request, response) {
+    connection.query("SELECT b.title, b.rating FROM cis550.BOOKS b WHERE b.rating >= 4 AND b.id IN (SELECT DISTINCT(bg.book_id) FROM cis550.BOOK_GENRES bg WHERE bg.genre IN (SELECT book_genre FROM cis550.GENRES WHERE movie_genre IN user=?)) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({Books: item.b.title, Movies: item.m.title});
+        result.push({name: item.b.title, rating: item.b.rating});
       });
-      console.log(request.params.name);
+
       response.send(result);
     });
   });
+
+  // Search based on list of genres guest user inputs: movie_genre -> movies
+  app.get('/api/guestBookGenreSearchMovie/:user', function(request, response) {
+    connection.query("SELECT m.title, m.rating FROM cis550.MOVIES m WHERE m.rating >= 8 AND m.id IN (SELECT DISTINCT(movie_id) FROM cis550.MOVIE_GENRES WHERE genre IN user=?) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({name: item.m.title, rating: item.m.rating});
+      });
+
+      response.send(result);
+    });
+  });
+
+    // Random choice of book
+    app.get('/api/randBook', function(request, response) {
+      connection.query("SELECT title, rating FROM cis550.BOOKS ORDER BY RAND() LIMIT 1", function(err, res) {
+        if (err)
+          response.send({err: err});
+        var result = [];
+        res.forEach(function(item, index) {
+          result.push({name: item.title, rating: item.rating});
+        });
+  
+        response.send(result);
+      });
+    });
+
+    // Random choice of movie
+    app.get('/api/randBook', function(request, response) {
+      connection.query("SELECT title, rating FROM cis550.MOVIES ORDER BY RAND() LIMIT 1", function(err, res) {
+        if (err)
+          response.send({err: err});
+        var result = [];
+        res.forEach(function(item, index) {
+          result.push({name: item.title, rating: item.rating});
+        });
+  
+        response.send(result);
+      });
+    });
+
+    
 
   // added by Claire
 
