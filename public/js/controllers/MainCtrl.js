@@ -1,18 +1,21 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $window, $timeout, $document) {
+angular.module('MainCtrl', ['star-rating']).controller('MainController', function($scope, $http, $window, $timeout, $document) {
 
   $scope.genreSearchActive = false;
   $scope.newUser = true;
-	$scope.bookGenres = [], $scope.movieGenres = [], $scope.allGenres = [], $scope.genreSuggestionList = [], $scope.selectedGenres = [];
+  $scope.bookGenres = [],
+  $scope.movieGenres = [],
+  $scope.genreSuggestionList = [],
+  $scope.selectedGenres = [];
   if ($window.localStorage.getItem("login") == true) {
     $scope.newUser = false;
   }
 
-	console.log("CONTROLER");
+  console.log("CONTROLER");
 
   // Get movie and book genres
   $http({method: 'GET', url: '/api/bookGenres'}).then(function(data) {
     $scope.bookGenres = data.data;
-		$scope.genreSuggestionList = $scope.bookGenres;
+    $scope.genreSuggestionList = $scope.bookGenres;
     console.log("book genres fetched");
   }).catch(function(data) {
     console.log('bookGenres fetch err ', data);
@@ -28,6 +31,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
 
   $http({method: 'GET', url: '/api/popularMovies'}).then(function(data) {
     $scope.popularMovies = data.data;
+    console.log($scope.popularMovies);
     console.log("popular movies fetched");
   }).catch(function(data) {
     console.log('popular movies fetch err ', data);
@@ -49,40 +53,26 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     document.getElementById(linkName).style.display = "block";
     evt.currentTarget.className += " w3-red";
 
-		if(linkName !== 'Books') {
-			if($scope.movieGenres.length === 0) {
-				$http.get('/api/movieGenres').then(function(data) {
-					$scope.movieGenres = data.data;
-					$scope.genreSuggestionList = $scope.movieGenres;
-					console.log($scope.movieGenres);
-					console.log("movie genres fetched");
-				}).then(function(data){
-					$scope.allGenres = $scope.movieGenres.concat($scope.bookGenres)
-					if(linkName !== 'Movies') {
-						$scope.genreSuggestionList = $scope.allGenres;
-						console.log('all', $scope.genreSuggestionList);
-					} else {
-						$scope.genreSuggestionList = $scope.movieGenres;
-						console.log('movies', $scope.genreSuggestionList);
-					}
-				}).catch(function(data) {
-					console.log('movieGenres fetch err ', data);
-				});
-			}
+    if (linkName !== 'Books') {
+      if ($scope.movieGenres.length === 0) {
+        $http.get('/api/movieGenres').then(function(data) {
+          $scope.movieGenres = data.data;
+          $scope.genreSuggestionList = $scope.movieGenres;
+          console.log($scope.movieGenres);
+          console.log("movie genres fetched");
+        }).catch(function(data) {
+          console.log('movieGenres fetch err ', data);
+        });
+      }
 
-			if(linkName !== 'Movies') {
-				$scope.genreSuggestionList = $scope.allGenres;
-				console.log('all', $scope.genreSuggestionList);
-			} else {
-				$scope.genreSuggestionList = $scope.movieGenres;
-				console.log('movies', $scope.genreSuggestionList);
-			}
-		} else {
-			$scope.genreSuggestionList = $scope.bookGenres;
-			console.log('books', $scope.genreSuggestionList);
-		}
+      $scope.genreSuggestionList = $scope.movieGenres;
+      console.log('movies', $scope.genreSuggestionList);
+    } else {
+      $scope.genreSuggestionList = $scope.bookGenres;
+      console.log('books', $scope.genreSuggestionList);
+    }
 
-		$scope.selectedGenres = [];
+    $scope.selectedGenres = [];
   }
 
   // show or hide account options
@@ -94,34 +84,46 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
     }
   }
 
-	// Show genre search list
-	$scope.addGenreSearch = function() {
-		$scope.genreSearchActive = true;
-		// $scope.genreText = "";
-	}
+  // Show genre search list
+  $scope.addGenreSearch = function() {
+    $scope.genreSearchActive = true;
+    // $scope.genreText = "";
+  }
 
-	// Select genre items
-	$scope.selectGenreItem = function(item) {
-		$scope.genreSuggestionList.splice($scope.genreSuggestionList.indexOf(item), 1);
-		$scope.selectedGenres.push(item);
-	}
+  // Select genre items
+  $scope.selectGenreItem = function(item) {
+    $scope.genreSuggestionList.splice($scope.genreSuggestionList.indexOf(item), 1);
+    $scope.selectedGenres.push(item);
+  }
 
-	// Remove genre items
-	$scope.removeSelectedTag = function(item) {
-		$scope.selectedGenres.splice($scope.selectedGenres.indexOf(item), 1);
-		$scope.genreSuggestionList.push(item);
-	}
+  // Remove genre items
+  $scope.removeSelectedTag = function(item) {
+    $scope.selectedGenres.splice($scope.selectedGenres.indexOf(item), 1);
+    $scope.genreSuggestionList.push(item);
+  }
 
-	// Close genre list on clicking anywhere else in the body
-	angular.element($document[0].body).on('click',function(e) {
-		e.stopPropagation();
-		// console.log(!angular.element(e.target).hasClass("genre-search") && !angular.element(e.target).hasClass("genre-list-item"));
-		if(!angular.element(e.target).hasClass("genre-search") && !angular.element(e.target).hasClass("genre-list-item")) {
-			$timeout(function() {
-				$scope.genreSearchActive = false;
-			}, 1);
-		}
-	});
+  // Close genre list on clicking anywhere else in the body
+  angular.element($document[0].body).on('click', function(e) {
+    e.stopPropagation();
+    // console.log(!angular.element(e.target).hasClass("genre-search") && !angular.element(e.target).hasClass("genre-list-item"));
+    if (!angular.element(e.target).hasClass("genre-search") && !angular.element(e.target).hasClass("genre-list-item")) {
+      $timeout(function() {
+        $scope.genreSearchActive = false;
+      }, 1);
+    }
+  });
+
+  // Rate Book
+  $scope.rateBook = function(index, rating) {
+    console.log(index, rating);
+    $("#bookRating"+index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-"+rating);
+  }
+
+  // Rate
+  $scope.rateMovie = function(index, rating) {
+    console.log(index, rating);
+    $("#movieRating"+index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-"+rating);
+  }
 
   // LOGIN
   $scope.verifyLogin = function() {

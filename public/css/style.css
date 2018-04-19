@@ -8,6 +8,7 @@ body {
   position: relative;
   height: 100vh;
   width: 100vw;
+  overflow: auto;
 }
 
 /* header and account options */
@@ -148,6 +149,64 @@ header {
 }
 
 /* Popular list */
+
+.popular-container {
+  width: 80%;
+  margin: 0 auto;
+  /* display: flex; */
+}
+
+.popular-container .popular-column {
+  height: 100%;
+}
+
+.popular-container .popular-column.book-column {
+  border-right: 1px solid #ddd;
+}
+
+.popular-column .title {
+  padding: 0 10px;
+}
+
+.popular-column .popular-list.heading {
+  font-weight: bold;
+}
+
+.popular-list .popular-item {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.popular-list .popular-item .text {
+  width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popular-list .popular-item .text:hover {
+  overflow: visible;
+  white-space: normal;
+}
+
+.popular-list .popular-item .rating {
+  width: 20%;
+}
+
+.popular-list .popular-item .global-rating {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.popular-item .rating.small .star, .star.small {
+  width: 15px;
+  cursor: pointer;
+}
 
 /* Login popup */
 
