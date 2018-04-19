@@ -77,9 +77,9 @@ module.exports = function(app) {
   ///////////////////////////////////////////////////////////
 
   // Search based on list of genres guest user inputs:book_genre -> books
-  app.get('/api/guestBookGenreSearch/:user', function(request, response) {
+  app.get('/api/guestBookGenreSearch/:guest', function(request, response) {
     var result = [];
-    connection.query("SELECT b.title, b.rating FROM cis550.book b WHERE b.rating >= 4 AND b.id IN (SELECT DISTINCT(book_id) FROM cis550.BOOK_GENRE WHERE genre IN user=?) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
+    connection.query("SELECT b.title, b.rating FROM cis550.book b WHERE b.rating >= 4 AND b.id IN (SELECT DISTINCT(book_id) FROM cis550.BOOK_GENRE WHERE genre IN ?) ORDER BY RAND() LIMIT 20", request.params.guest, function(err, res) {
       if (err)
         response.send({err: err});
       var bookResult = [];
@@ -90,7 +90,7 @@ module.exports = function(app) {
       result.push({books: bookResult});
     });
 
-    connection.query("SELECT m.title, m.rating FROM cis550.MOVIES m WHERE m.rating >= 8 AND m.id IN (SELECT mg.movie_id FROM cis550.MOVIE_GENRES mg WHERE mg.genre IN (SELECT movie_genre FROM cis550.GENRES WHERE book_genre IN user=?))) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
+    connection.query("SELECT m.title, m.rating FROM cis550.MOVIES m WHERE m.rating >= 8 AND m.id IN (SELECT mg.movie_id FROM cis550.MOVIE_GENRES mg WHERE mg.genre IN (SELECT movie_genre FROM cis550.GENRES WHERE book_genre IN ?))) ORDER BY RAND() LIMIT 20", request.params.guest, function(err, res) {
       if (err)
         response.send({err: err});
       var movieResult = [];
@@ -105,32 +105,33 @@ module.exports = function(app) {
     response.send(result);
   });
 
-  // Search based on list of genres guest user inputs:movie_genre -> books
-  app.get('/api/guestMovieGenreSearchBook/:user', function(request, response) {
-    connection.query("SELECT b.title, b.rating FROM cis550.book b WHERE b.rating >= 4 AND b.id IN (SELECT DISTINCT(bg.book_id) FROM cis550.BOOK_GENRE bg WHERE bg.genre IN (SELECT book_genre FROM cis550.GENRES WHERE movie_genre IN user=?)) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
+  // Search based on list of genres guest user inputs:movie_genre -> books & movies
+  app.get('/api/guestMovieGenreSearch/:guest', function(request, response) {
+    var result = [];
+    connection.query("SELECT b.title, b.rating FROM cis550.book b WHERE b.rating >= 4 AND b.id IN (SELECT DISTINCT(bg.book_id) FROM cis550.BOOK_GENRE bg WHERE bg.genre IN (SELECT book_genre FROM cis550.GENRES WHERE movie_genre IN ?)) ORDER BY RAND() LIMIT 20", request.params.guest, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({name: item.b.title, rating: item.b.rating});
+        bookResult.push({name: item.b.title, rating: item.b.rating});
       });
 
-      response.send(result);
+      result.push({books: bookResult});
     });
-  });
 
   // Search based on list of genres guest user inputs: movie_genre -> movies
-  app.get('/api/guestBookGenreSearchMovie/:user', function(request, response) {
-    connection.query("SELECT m.title, m.rating FROM cis550.MOVIES m WHERE m.rating >= 8 AND m.id IN (SELECT DISTINCT(movie_id) FROM cis550.MOVIE_GENRES WHERE genre IN user=?) ORDER BY RAND() LIMIT 20", request.params.user, function(err, res) {
+    connection.query("SELECT m.title, m.rating FROM cis550.MOVIES m WHERE m.rating >= 8 AND m.id IN (SELECT DISTINCT(movie_id) FROM cis550.MOVIE_GENRES WHERE genre IN ?) ORDER BY RAND() LIMIT 20", request.params.guest, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({name: item.m.title, rating: item.m.rating});
+        movieResult.push({name: item.m.title, rating: item.m.rating});
       });
 
-      response.send(result);
+      result.push({movies: movieResult});
     });
+
+    response.send(result);
   });
 
     // Random choice of book
@@ -140,25 +141,24 @@ module.exports = function(app) {
           response.send({err: err});
         var result = [];
         res.forEach(function(item, index) {
-          result.push({name: item.title, rating: item.rating});
+          bookResult.push({name: item.title, rating: item.rating});
         });
 
-        response.send(result);
+        result.push({books: bookResult});
       });
-    });
 
     // Random choice of movie
-    app.get('/api/randBook', function(request, response) {
       connection.query("SELECT title, rating FROM cis550.MOVIES ORDER BY RAND() LIMIT 1", function(err, res) {
         if (err)
           response.send({err: err});
         var result = [];
         res.forEach(function(item, index) {
-          result.push({name: item.title, rating: item.rating});
+          movieResult.push({name: item.title, rating: item.rating});
         });
-
-        response.send(result);
+        result.push({movies: movieResult});
       });
+
+      response.send(result);
     });
 
 
