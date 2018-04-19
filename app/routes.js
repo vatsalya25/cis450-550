@@ -152,7 +152,7 @@ module.exports = function(app) {
 
   //DISPLAY READLIST BOOKS
   app.get('/api/readlist', function(req, res) {
-    onnection.query('SELECT B.title, B.rating, R.rating FROM cis550.READ as R JOIN cis550.BOOKS as B ON R.book_id = B.id WHERE user_id = "655"', request.params.user, function(err, res) {
+    onnection.query('SELECT B.title, B.rating, R.rating FROM cis550.READ as R JOIN cis550.book as B ON R.book_id = B.id WHERE user_id = "655"', request.params.user, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
@@ -212,7 +212,7 @@ module.exports = function(app) {
    //Search for books based on Name, return book title and average rating
   app.get('/api/searchBook', function(req, res) {
     // user id, rating, book_id
-    onnection.query('SELECT B.title, B.rating FROM cis550.BOOKS as B WHERE B.title LIKE "%Harry Potter%" LIMIT 10', request.params.user, function(err, res) {
+    onnection.query('SELECT B.title, B.rating FROM cis550.book as B WHERE B.title LIKE "%Harry Potter%" LIMIT 10', request.params.user, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
@@ -223,23 +223,6 @@ module.exports = function(app) {
       response.send(result);
     });
   });
-
-
-  //Select all recommended books for the user
-  app.get('/api/searchBook', function(req, res) {
-    // user id, rating, book_id
-    onnection.query('', request.params.user, function(err, res) {
-      if (err)
-        response.send({err: err});
-      var result = [];
-      res.forEach(function(item, index) {
-        result.push({Books: item.b.title, Movies: item.m.title});
-      });
-      console.log(request.params.name);
-      response.send(result);
-    });
-  });
-
 
 
   app.get('/api/allGenres', function(req, res) {
