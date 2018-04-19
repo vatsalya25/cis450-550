@@ -30,27 +30,27 @@
 	<script src="js/controllers/MainCtrl.js"></script>
 	<script src="js/controllers/LoginCtrl.js"></script>
 	<script src="js/services/LoginService.js"></script>
-	<script src="js/controllers/GeekCtrl.js"></script>
-	<script src="js/services/GeekService.js"></script>
+	<script src="js/controllers/RecommendCtrl.js"></script>
+	<script src="js/services/RecommendService.js"></script>
 	<script src="js/appRoutes.js"></script>
 	<script src="js/app.js"></script>
 
 </head>
 
-<body class="home w3-light-grey" ng-app="sampleApp" ng-controller="MainController">
+<body class="home w3-light-grey" ng-app="sampleApp">
 	<header class="w3-bar w3-white w3-border-bottom w3-xlarge">
 		<a href="/" class="w3-bar-item w3-button w3-text-red w3-hover-red">
 			<b><i class="fa fa-map-marker w3-margin-right"></i>GoodSuggest</b>
 		</a>
-		<a href="#" class="nav-account w3-bar-item w3-button w3-right w3-hover-red w3-text-grey" ng-click="toggleAccountOptions()">
+		<div class="nav-account w3-bar-item w3-button w3-right w3-hover-red w3-text-grey" ng-click="toggleAccountOptions()" ng-controller="MainController">
 			<i class="fa fa-user"></i>
 			<div>Account</div>
-		</a>
+		</div>
 	</header>
 
 	<!-- Account options -->
 	<ul id="newUserOptions" class="account-options hidden w3-white">
-		<li class="option w3-hover-red" ng-click="toggleLoginPopup()">Login</li>
+		<li class="option w3-hover-red"><a href="/login" ng-click="toggleLogin()">Login</a></li>
 	</ul>
 
 	<ul id="registeredUserOptions" class="account-options hidden w3-white">
@@ -64,44 +64,7 @@
 
 	<!-- LOGIN POPUP -->
 	<div class="auth-popup" ng-if="loginAttempt">
-		<div class="auth-box w3-grey">
-			<div class="auth-header w3-black">
-				<div class="auth-heading">Authentication</div>
-				<div class="auth-close w3-hover-red" ng-click="toggleLoginPopup()">
-					<i class="fa fa-close fa-lg w3-text-light-grey"></i>
-				</div>
-			</div>
-			<div class="box login-container">
-				<div class="auth-field w3-dark-grey">
-					<i class="fa fa-user w3-text-light-grey"></i>
-					<input type="text" id="loginUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
-				</div>
-				<div class="auth-field w3-dark-grey">
-					<i class="fa fa-lock w3-text-light-grey"></i>
-					<input type="password" id="loginPassword" autocomplete="off" class="auth-field-input password" placeholder="Password" />
-				</div>
-				<div class="auth-btn loginBtn w3-hover-red" ng-click="verifyLogin()">
-					<div class="auth-btn-text">Login</div>
-				</div>
-			</div>
-			<div class="box register-container">
-				<div class="auth-field w3-dark-grey">
-					<i class="fa fa-user w3-text-light-grey"></i>
-					<input type="text" id="registerUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
-				</div>
-				<div class="auth-field w3-dark-grey">
-					<i class="fa fa-lock w3-text-light-grey"></i>
-					<input type="password" id="registerPassword" autocomplete="off" class="auth-field-input password" placeholder="Password" />
-				</div>
-				<div class="auth-field confirm-password-field w3-dark-grey">
-					<i class="fa fa-lock w3-text-light-grey"></i>
-					<input type="password" id="registerConfirmPassword" autocomplete="off" class="auth-field-input password" placeholder="Confirm Password" />
-				</div>
-				<div class="auth-btn registerBtn w3-hover-red" ng-click="registerUser()">
-					<div class="auth-btn-text">Register</div>
-				</div>
-			</div>
-		</div>
+
 	</div>
 
 	<div ng-if="loginAttempt" class="popup-overlay"></div>

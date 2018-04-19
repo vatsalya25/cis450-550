@@ -208,7 +208,7 @@ header {
   cursor: pointer;
 }
 
-/* Login popup */
+/* Login */
 
 .auth-popup {
   position: fixed;
@@ -220,18 +220,33 @@ header {
   z-index: 5;
 }
 
-.auth-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* background-color: #082057; */
+.auth-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-container .auth-box {
+  margin: 0 auto;
   width: 800px;
+  height: 300px;
   max-height: 400px;
+  margin-top: -150px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   box-sizing: border-box;
+  border-radius: 2px;
+}
+
+.auth-box .box {
+  height: 100%;
+}
+
+.auth-box .box.login-container {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .auth-box .auth-header {
@@ -297,13 +312,11 @@ header {
   height: 100%;
   width: 100%;
   margin: 0 5px 0 10px;
-  color: #efefef;
   font-size: 14px;
 }
 
-.auth-field-input::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  color: #efefef;
+.auth-field .auth-field-input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .auth-field .auth-field-img {

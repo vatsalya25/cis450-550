@@ -12,9 +12,9 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			controller: 'LoginController'
 		})
 
-		.when('/geeks', {
+		.when('/recommend', {
 			templateUrl: 'views/geek.html',
-			controller: 'GeekController'
+			controller: 'RecommendController'
 		});
 
 	$locationProvider.html5Mode(true);

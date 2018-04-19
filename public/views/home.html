@@ -1,4 +1,4 @@
-<div class="container home-container w3-dark-grey w3-display-container w3-content w3-hide-small">
+<div class="container home-container w3-dark-grey w3-display-container w3-content w3-hide-small" ng-controller="MainController">
 	<div class="w3-display-middle recommend-box">
 		<div class="w3-bar w3-black">
 			<button class="w3-bar-item w3-button tablink w3-red" ng-click="openLink($event, 'Books')"><i class="fa fa-book w3-margin-right"></i>Books</button>
@@ -56,7 +56,7 @@
 </div>
 
 <!-- Show Latest content -->
-<div class="w3-container popular-container w3-light-grey">
+<div class="w3-container popular-container w3-light-grey" ng-controller="MainController">
 	<div class="w3-half popular-column book-column w3-container w3-white">
 		<h3 class="title w3-margin-bottom w3-margin-top">Popular Books</h3>
 		<div class="popular-list heading w3-margin-bottom w3-margin-top">

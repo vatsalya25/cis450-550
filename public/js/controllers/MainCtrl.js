@@ -10,8 +10,6 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
     $scope.newUser = false;
   }
 
-  console.log("CONTROLER");
-
   // Get movie and book genres
   $http({method: 'GET', url: '/api/bookGenres'}).then(function(data) {
     $scope.bookGenres = data.data;
@@ -31,7 +29,6 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
 
   $http({method: 'GET', url: '/api/popularMovies'}).then(function(data) {
     $scope.popularMovies = data.data;
-    console.log($scope.popularMovies);
     console.log("popular movies fetched");
   }).catch(function(data) {
     console.log('popular movies fetch err ', data);
@@ -58,7 +55,6 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
         $http.get('/api/movieGenres').then(function(data) {
           $scope.movieGenres = data.data;
           $scope.genreSuggestionList = $scope.movieGenres;
-          console.log($scope.movieGenres);
           console.log("movie genres fetched");
         }).catch(function(data) {
           console.log('movieGenres fetch err ', data);
@@ -77,6 +73,7 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
 
   // show or hide account options
   $scope.toggleAccountOptions = function() {
+    console.log("Called");
     if ($scope.newUser) {
       angular.element('#newUserOptions').toggleClass('hidden');
     } else {
@@ -136,12 +133,13 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
   }
 
   // Close the Authentication popup
-  $scope.toggleLoginPopup = function() {
+  $scope.toggleLogin = function() {
     angular.element('.account-options').addClass('hidden');
     $scope.loginAttempt = !$scope.loginAttempt;
   }
 
   $timeout(function() {
     document.getElementsByClassName("tablink")[0].click();
-  }, 0);
+    angular.element('.account-options').addClass('hidden');
+  }, 300);
 });
