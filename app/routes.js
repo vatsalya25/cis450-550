@@ -137,11 +137,111 @@ module.exports = function(app) {
   });
 
   //DISPLAY WATCHLIST MOVIES
-  app.get('/api/allGenres', function(req, res) {
-    res.send({'genre': 'something'});
+  app.get('/api/watchlist', function(req, res) {
+    onnection.query('SELECT M.title as title, W.rating as user_rating, M.rating as avg_rating FROM cis550.WATCHED as W JOIN cis550.MOVIES as M ON W.movie_id = M.id WHERE user_id = "655"', request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result);
+    });
   });
 
-  
+  //DISPLAY READLIST BOOKS
+  app.get('/api/readlist', function(req, res) {
+    onnection.query('SELECT B.title, B.rating, R.rating FROM cis550.READ as R JOIN cis550.BOOKS as B ON R.book_id = B.id WHERE user_id = "655"', request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
+
+   //Add book to Readlist or update rating on book
+  app.get('/api/addToReadlist', function(req, res) {
+    // user id, rating, book_id
+    onnection.query('INSERT INTO cis550.READ VALUES (655, 5, 33) ON DUPLICATE KEY UPDATE rating = VALUES(rating);', request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
+
+  //Add movie to watchlist or update rating on movie
+  app.get('/api/addToWatchlist', function(req, res) {
+    // user id, rating, book_id
+    onnection.query('INSERT INTO cis550.WATCHED VALUES (655, 8, 13) ON DUPLICATE KEY UPDATE rating = VALUES(rating)', request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
+
+  //Search for movies based on Name, return movie title and average rating
+  app.get('/api/searchMovie', function(req, res) {
+    // user id, rating, book_id
+    onnection.query('SELECT M.title, M.rating FROM cis550.MOVIES as M WHERE M.title LIKE "%Harry Potter% LIMIT 10', request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
+
+   //Search for books based on Name, return book title and average rating
+  app.get('/api/searchBook', function(req, res) {
+    // user id, rating, book_id
+    onnection.query('SELECT B.title, B.rating FROM cis550.BOOKS as B WHERE B.title LIKE "%Harry Potter%" LIMIT 10', request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
+
+
+  //Select all recommended books for the user
+  app.get('/api/searchBook', function(req, res) {
+    // user id, rating, book_id
+    onnection.query('', request.params.user, function(err, res) {
+      if (err)
+        response.send({err: err});
+      var result = [];
+      res.forEach(function(item, index) {
+        result.push({Books: item.b.title, Movies: item.m.title});
+      });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
+
+
+
   app.get('/api/allGenres', function(req, res) {
     res.send({'genre': 'something'});
   });
