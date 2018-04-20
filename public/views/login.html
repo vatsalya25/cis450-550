@@ -1,15 +1,10 @@
 <div class="auth-container w3-container w3-light-grey" ng-controller="LoginController">
 	<div class="auth-box w3-white">
-		<!-- <div class="auth-header w3-black">
-			<div class="auth-heading">Authentication</div>
-			<div class="auth-close w3-hover-red" ng-click="toggleLoginPopup()">
-				<i class="fa fa-close fa-lg"></i>
-			</div>
-		</div> -->
+		<!-- Login -->
 		<div class="box login-container">
 			<div class="auth-field w3-light-grey">
 				<i class="fa fa-user"></i>
-				<input type="text" id="loginUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
+				<input type="text" id="loginEmail" autocomplete="off" class="auth-field-input username" placeholder="Email" />
 			</div>
 			<div class="auth-field w3-light-grey">
 				<i class="fa fa-lock"></i>
@@ -19,10 +14,16 @@
 				<div class="auth-btn-text">Login</div>
 			</div>
 		</div>
+
+		<!-- Register -->
 		<div class="box register-container">
 			<div class="auth-field w3-light-grey">
+				<i class="fa fa-superpowers"></i>
+				<input type="text" id="registerName" autocomplete="off" class="auth-field-input fullname" placeholder="Full Name" />
+			</div>
+			<div class="auth-field w3-light-grey">
 				<i class="fa fa-user"></i>
-				<input type="text" id="registerUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
+				<input type="text" id="registerEmail" autocomplete="off" class="auth-field-input username" placeholder="Email" />
 			</div>
 			<div class="auth-field w3-light-grey">
 				<i class="fa fa-lock"></i>
@@ -36,5 +37,8 @@
 				<div class="auth-btn-text">Register</div>
 			</div>
 		</div>
+
+		<div class="warning hidden">Error</div>
+
 	</div>
 </div>

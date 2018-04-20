@@ -233,15 +233,43 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
   }
 
   // Rate Book
-  $scope.rateBook = function(index, rating) {
-    console.log(index, rating);
-    $("#bookRating" + index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + rating);
+  $scope.rateBook = function(book_id, rating) {
+    console.log(book_id, rating);
+    $("#bookRating" + book_id).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + rating);
+    $http({
+      method: 'POST',
+      url: '/api/addToReadlist',
+      data: {
+        book_id: book_id,
+        user_id: 655,
+        rating: rating
+      }
+    }).then(function(data) {
+      console.log(data);
+    }).catch(function(data) {
+      $("#bookRating" + book_id).removeClass("value-0 value-1 value-2 value-3 value-4 value-5");
+      console.log('rateBook err ', data);
+    });
   }
 
   // Rate
-  $scope.rateMovie = function(index, rating) {
-    console.log(index, rating);
-    $("#movieRating" + index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + rating);
+  $scope.rateMovie = function(movie_id, rating) {
+    console.log(movie_id, rating);
+    $("#movieRating" + movie_id).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + rating);
+    $http({
+      method: 'POST',
+      url: '/api/addToWatchlist',
+      data: {
+        movie_id: movie_id,
+        user_id: 655,
+        rating: rating
+      }
+    }).then(function(data) {
+      console.log(data);
+    }).catch(function(data) {
+      $("#movieRating" + movie_id).removeClass("value-0 value-1 value-2 value-3 value-4 value-5");
+      console.log('rateMovie err ', data);
+    });
   }
 
   // LOGIN
