@@ -115,12 +115,11 @@ module.exports = function(app) {
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({name: item.b.title, rating: item.b.rating});
+        bookResult.push({name: item.b.title, rating: item.b.rating});
       });
 
-      response.send(result);
+      result.push({books: bookResult});
     });
-  });
 
   // Search based on list of genres guest user inputs: movie_genre -> movies
   app.get('/api/guestBookGenreSearchMovie/:genres', function(request, response) {
@@ -129,11 +128,13 @@ module.exports = function(app) {
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({name: item.m.title, rating: item.m.rating});
+        movieResult.push({name: item.m.title, rating: item.m.rating});
       });
 
-      response.send(result);
+      result.push({movies: movieResult});
     });
+
+    response.send(result);
   });
 
     // Random choice of book
@@ -143,25 +144,24 @@ module.exports = function(app) {
           response.send({err: err});
         var result = [];
         res.forEach(function(item, index) {
-          result.push({name: item.title, rating: item.rating});
+          bookResult.push({name: item.title, rating: item.rating});
         });
 
-        response.send(result);
+        result.push({books: bookResult});
       });
-    });
 
     // Random choice of movie
-    app.get('/api/randBook', function(request, response) {
       connection.query("SELECT title, rating FROM cis550.MOVIES ORDER BY RAND() LIMIT 1", function(err, res) {
         if (err)
           response.send({err: err});
         var result = [];
         res.forEach(function(item, index) {
-          result.push({name: item.title, rating: item.rating});
+          movieResult.push({name: item.title, rating: item.rating});
         });
-
-        response.send(result);
+        result.push({movies: movieResult});
       });
+
+      response.send(result);
     });
 
 
