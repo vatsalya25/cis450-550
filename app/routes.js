@@ -11,6 +11,24 @@ module.exports = function(app) {
     console.log('connected in routes as id ' + connection.threadId);
   });
 
+// Mongo stuff
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://cis550:cis550@ds249299.mlab.com:49299/cis550m"
+
+//requeres an array of titles
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("cis550m");
+  var query = {original_name: {$in: ['Mega64', 'NBA on TNT'] }};
+
+
+  // dbo.collection("series").find(query).toArray(function(err, result){
+  //   if (err) throw err;
+  //   console.log(result);
+  //   db.close();
+  // });
+});
+
   // server routes ===========================================================
   // handle API calls
   app.get('/api/bookGenres', function(request, response) {
@@ -115,10 +133,6 @@ module.exports = function(app) {
       res.forEach(function(item, index) {
         bookResult.push({name: item.title, rating: item.rating});
       });
-      console.log(request.params.name);
-      response.send(result);
-    });
-  });
 
       result.books = bookResult;
       var query2 = "SELECT m.title, m.rating FROM cis550.movie m WHERE m.rating >= 4 AND m.id IN (SELECT DISTINCT(movie_id) FROM cis550.MOVIE_GENRES WHERE genre IN " + request.body.genres + ") ORDER BY RAND() LIMIT 20;"
@@ -446,10 +460,6 @@ module.exports = function(app) {
         result.push({Title: item.title, Rating: item.rating});
       });
       console.log(request.params.name);
-      response.send(result);
-    });
-  });
-
       response.send(result);
     });
   });
