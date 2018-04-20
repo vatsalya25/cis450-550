@@ -236,7 +236,7 @@ module.exports = function(app) {
     var result = {};
     var query1 = "SELECT title, rating FROM cis550.book WHERE id NOT IN (SELECT book_id FROM cis550.READ WHERE user_id = " + request.body.userId + ") ORDER BY RAND() LIMIT 10"
 
-    connection.query(, function(err, res) {
+    connection.query(query1, function(err, res) {
       if (err)
         response.send({err: err});
       var bookResult = [];
@@ -247,7 +247,8 @@ module.exports = function(app) {
       result.books = bookResult;
 
       // Random choice of movie for logged in user
-      connection.query("SELECT title, rating FROM cis550.movie WHERE id NOT IN (SELECT movie_id FROM cis550.WATCHED WHERE user_id = " + request.body.userId + ") ORDER BY RAND() LIMIT 10", function(err, res) {
+      var query2 = "SELECT title, rating FROM cis550.movie WHERE id NOT IN (SELECT movie_id FROM cis550.WATCHED WHERE user_id = " + request.body.userId + ") ORDER BY RAND() LIMIT 10"
+      connection.query(query2, function(err, res) {
         if (err)
         response.send({err: err});
         var movieResult = [];
