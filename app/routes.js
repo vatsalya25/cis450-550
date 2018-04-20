@@ -272,7 +272,13 @@ module.exports = function(app) {
       if (err)
         response.send({status: "duplicate"})
       else
-        response.send({status: "ok"});
+        connections.query('SELECT user_id, first_name FROM cis550.USERS WHERE email = "v@g.com"', function(err, res)) {
+        if (err)
+          response.send({err: err});
+        else
+            response.send({status: "ok"}, res);
+
+      });
 
       }
     );
@@ -289,11 +295,16 @@ module.exports = function(app) {
         response.send({err: err});
 
       if (inDB == 1) {
-        response.send({status: "ok"})
-      } else {
+        connections.query('SELECT user_id, first_name FROM cis550.USERS WHERE email = "v@g.com"', function(err, res)) {
+        if (err)
+          response.send({err: err});
+        else
+          response.send({status: "ok"}, res);
+      });
+      } 
+      else {
         response.send({status: "error"})
       }
-      console.log(result)
     });
   });
 
