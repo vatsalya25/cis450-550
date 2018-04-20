@@ -304,6 +304,10 @@ header {
   box-shadow: 0 2px 4px 1px #848484c2;
 }
 
+.auth-field i {
+  width: 15px;
+}
+
 .auth-field .auth-field-input {
   -webkit-appearance: none;
   background: transparent;
@@ -361,7 +365,7 @@ header {
 
 .recommend-container {
   width: 80%;
-  margin: auto;
+  margin: 0 auto 50px;
 }
 
 .recommend-container .title {
@@ -374,6 +378,11 @@ header {
 
 .recommend-container .popular-column {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
+  height: 724px;
+}
+
+.recommend-container .popular-column.seen-column {
+  overflow: auto;
 }
 
 /* Common */
@@ -397,11 +406,11 @@ a:hover {
 .warning {
   font-size: 16px;
   position: fixed;
-  background-color: rgb(1, 25, 78);
+  background-color: #f44336;
   z-index: 3;
   opacity: 1;
   left: 50%;
-  top: 160px;
+  top: 120px;
   transform: translateX(-50%);
   border-radius: 5px;
   color: #fff;

@@ -3,7 +3,7 @@
 	<div class="books-container">
 		<h4 class="title">Books</h4>
 		<div class="w3-container w3-light-grey">
-			<div class="w3-half popular-column book-column w3-container w3-white">
+			<div class="w3-half popular-column seen-column w3-container w3-white">
 				<h3 class="title w3-margin-bottom w3-margin-top">Books I've Read</h3>
 				<div class="popular-list heading w3-margin-bottom w3-margin-top">
 					<div class="popular-item">
@@ -55,51 +55,6 @@
 				<div class="popular-list w3-margin-bottom w3-margin-top">
 					<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in recommendedBooks">
 						<div class="text">{{item.name}}</div>
-						<div id="movieRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
-							<div class="star-container">
-								<div class="star" ng-click="rateMovie(item.index, 1)">
-									<i class="star-empty"></i>
-									<i class="star-filled"></i>
-								</div>
-								<div class="star" ng-click="rateMovie(item.index, 2)">
-									<i class="star-empty"></i>
-									<i class="star-filled"></i>
-								</div>
-								<div class="star" ng-click="rateMovie(item.index, 3)">
-									<i class="star-empty"></i>
-									<i class="star-filled"></i>
-								</div>
-								<div class="star" ng-click="rateMovie(item.index, 4)">
-									<i class="star-empty"></i>
-									<i class="star-filled"></i>
-								</div>
-								<div class="star" ng-click="rateMovie(item.index, 5)">
-									<i class="star-empty"></i>
-									<i class="star-filled"></i>
-								</div>
-							</div>
-						</div>
-						<div class="global-rating">{{item.rating}}</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="movies-container">
-		<h4 class="title">Movies</h4>
-		<div class="w3-container w3-light-grey">
-			<div class="w3-half popular-column book-column w3-container w3-white">
-				<h3 class="title w3-margin-bottom w3-margin-top">Movies I've watched</h3>
-				<div class="popular-list heading w3-margin-bottom w3-margin-top">
-					<div class="popular-item">
-						<div class="text">Name</div>
-						<div class="rating-title">Your rating</div>
-						<div class="global-rating">Overall</div>
-					</div>
-				</div>
-				<div class="popular-list w3-margin-bottom w3-margin-top">
-					<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in watchlist">
-						<div class="text">{{item.name}}</div>
 						<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
 							<div class="star-container">
 								<div class="star" ng-click="rateBook(item.index, 1)">
@@ -119,6 +74,51 @@
 									<i class="star-filled"></i>
 								</div>
 								<div class="star" ng-click="rateBook(item.index, 5)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+							</div>
+						</div>
+						<div class="global-rating">{{item.rating}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="movies-container">
+		<h4 class="title">Movies</h4>
+		<div class="w3-container w3-light-grey">
+			<div class="w3-half popular-column seen-column w3-container w3-white">
+				<h3 class="title w3-margin-bottom w3-margin-top">Movies I've watched</h3>
+				<div class="popular-list heading w3-margin-bottom w3-margin-top">
+					<div class="popular-item">
+						<div class="text">Name</div>
+						<div class="rating-title">Your rating</div>
+						<div class="global-rating">Overall</div>
+					</div>
+				</div>
+				<div class="popular-list w3-margin-bottom w3-margin-top">
+					<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in watchlist">
+						<div class="text">{{item.name}}</div>
+						<div id="movieRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
+							<div class="star-container">
+								<div class="star" ng-click="rateMovie(item.index, 1)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 2)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 3)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 4)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 5)">
 									<i class="star-empty"></i>
 									<i class="star-filled"></i>
 								</div>
