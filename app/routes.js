@@ -203,7 +203,7 @@ module.exports = function(app) {
   //Search for movies based on Name, return movie title and average rating
   app.get('/api/searchMovie', function(request, response) {
     // user id, rating, book_id
-    connection.query('SELECT M.title, M.rating FROM cis550.MOVIES as M WHERE M.title LIKE "%Harry Potter%" LIMIT 10', request.params.user, function(err, res) {
+    connection.query('SELECT M.title, M.rating, WW.rating FROM cis550.movie as M LEFT JOIN (SELECT * FROM cis550.WATCHED as W WHERE W.user_id = 655) as WW on M.id = WW.movie_id   WHERE M.title LIKE "%Finding%" LIMIT 10', request.params.user, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
@@ -219,7 +219,7 @@ module.exports = function(app) {
    //Search for books based on Name, return book title and average rating
   app.get('/api/searchBook', function(request, response) {
     // user id, rating, book_id
-    connection.query('SELECT B.title, B.rating FROM cis550.book as B WHERE B.title LIKE "%The Lord%" LIMIT 10', request.params.user, function(err, res) {
+    connection.query('SELECT B.title, B.rating, RR.rating FROM cis550.book as B LEFT JOIN (SELECT * FROM cis550.READ as R WHERE R.user_id = 655) as RR on B.id = RR.book_id  WHERE B.title LIKE "%The Lord%"  LIMIT 10', request.params.user, function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
