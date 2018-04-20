@@ -53,7 +53,7 @@ module.exports = function(app) {
   });
 
   app.get('/api/popularMovies', function(request, response) {
-    connection.query('SELECT id, title, rating FROM cis550.movie where rating >= 8 ORDER BY RAND() LIMIT 10;', function(err, res) {
+    connection.query('SELECT id, title, rating FROM cis550.movie where rating >= 4 ORDER BY RAND() LIMIT 10;', function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];

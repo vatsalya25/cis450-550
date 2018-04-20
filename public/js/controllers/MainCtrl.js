@@ -30,6 +30,7 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
 
   $http({method: 'GET', url: '/api/popularMovies'}).then(function(data) {
     $scope.popularMovies = data.data;
+    console.log("popularMovies: ", $scope.popularMovies);
     console.log("popular movies fetched");
   }).catch(function(data) {
     console.log('popular movies fetch err ', data);
