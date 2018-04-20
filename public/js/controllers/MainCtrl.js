@@ -1,4 +1,4 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $window, $timeout, $document) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, $http, $window, $timeout, $document, $location) {
 
   $scope.genreSearchActive = false;
   $scope.nameText = "";
@@ -7,7 +7,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
   $scope.movieGenres = [],
   $scope.genreSuggestionList = [],
   $scope.selectedGenres = [];
-  if ($window.localStorage.getItem("login") == true) {
+
+  if ($window.localStorage.getItem("loggedIn") == "true") {
     $scope.newUser = false;
   }
 
@@ -286,6 +287,12 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
   $scope.toggleLogin = function() {
     angular.element('.account-options').addClass('hidden');
     $scope.loginAttempt = !$scope.loginAttempt;
+  }
+
+  // Logout
+  var logout = function() {
+    localStorage.clear();
+    $location.path('/login');
   }
 
   $timeout(function() {

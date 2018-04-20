@@ -53,10 +53,9 @@
 		<li class="option w3-hover-red"><a href="/login" ng-click="toggleLogin()">Login</a></li>
 	</ul>
 
-	<ul id="registeredUserOptions" class="account-options hidden w3-white">
-		<li class="option w3-hover-red"><a href="/account">Account</a></li>
-		<li class="option w3-hover-red"><a href="/recommendations">Recommendations</a></li>
-		<li class="option w3-hover-red"><a href="/logout">Log out</a></li>
+	<ul id="registeredUserOptions" class="account-options hidden w3-white" ng-controller="LoginController">
+		<li class="option w3-hover-red"><a href="/recommend">My Recommendations</a></li>
+		<li class="option w3-hover-red" ng-click="logout()">Log out</li>
 	</ul>
 
 	<!-- ANGULAR DYNAMIC CONTENT -->

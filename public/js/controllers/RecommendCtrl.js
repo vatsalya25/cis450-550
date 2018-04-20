@@ -125,5 +125,4 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
 		});
 	}
 
-
 });
