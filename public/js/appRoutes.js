@@ -7,14 +7,14 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			templateUrl: 'views/home.html'
 		})
 
-		.when('/logout', {
+		.when('/login', {
 			templateUrl: 'views/login.html',
 			controller: 'LoginController'
 		})
 
-		.when('/geeks', {
+		.when('/recommend', {
 			templateUrl: 'views/geek.html',
-			controller: 'GeekController'
+			controller: 'RecommendController'
 		});
 
 	$locationProvider.html5Mode(true);

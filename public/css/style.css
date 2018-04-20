@@ -8,6 +8,7 @@ body {
   position: relative;
   height: 100vh;
   width: 100vw;
+  overflow: auto;
 }
 
 /* header and account options */
@@ -149,7 +150,65 @@ header {
 
 /* Popular list */
 
-/* Login popup */
+.popular-container {
+  width: 80%;
+  margin: 0 auto;
+  /* display: flex; */
+}
+
+.popular-container .popular-column {
+  height: 100%;
+}
+
+.popular-container .popular-column.book-column {
+  border-right: 1px solid #ddd;
+}
+
+.popular-column .title {
+  padding: 0 10px;
+}
+
+.popular-column .popular-list.heading {
+  font-weight: bold;
+}
+
+.popular-list .popular-item {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.popular-list .popular-item .text {
+  width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popular-list .popular-item .text:hover {
+  overflow: visible;
+  white-space: normal;
+}
+
+.popular-list .popular-item .rating {
+  width: 20%;
+}
+
+.popular-list .popular-item .global-rating {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.popular-item .rating.small .star, .star.small {
+  width: 15px;
+  cursor: pointer;
+}
+
+/* Login */
 
 .auth-popup {
   position: fixed;
@@ -161,18 +220,33 @@ header {
   z-index: 5;
 }
 
-.auth-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* background-color: #082057; */
+.auth-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-container .auth-box {
+  margin: 0 auto;
   width: 800px;
+  height: 300px;
   max-height: 400px;
+  margin-top: -150px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   box-sizing: border-box;
+  border-radius: 2px;
+}
+
+.auth-box .box {
+  height: 100%;
+}
+
+.auth-box .box.login-container {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .auth-box .auth-header {
@@ -238,13 +312,11 @@ header {
   height: 100%;
   width: 100%;
   margin: 0 5px 0 10px;
-  color: #efefef;
   font-size: 14px;
 }
 
-.auth-field-input::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  color: #efefef;
+.auth-field .auth-field-input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .auth-field .auth-field-img {

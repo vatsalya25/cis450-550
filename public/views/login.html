@@ -1,5 +1,40 @@
-<div class="jumbotron text-center">
-	<h1>Logins and Proud</h1>
-
-	<p>{{ tagline }}</p>
+<div class="auth-container w3-container w3-light-grey" ng-controller="LoginController">
+	<div class="auth-box w3-white">
+		<!-- <div class="auth-header w3-black">
+			<div class="auth-heading">Authentication</div>
+			<div class="auth-close w3-hover-red" ng-click="toggleLoginPopup()">
+				<i class="fa fa-close fa-lg"></i>
+			</div>
+		</div> -->
+		<div class="box login-container">
+			<div class="auth-field w3-light-grey">
+				<i class="fa fa-user"></i>
+				<input type="text" id="loginUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
+			</div>
+			<div class="auth-field w3-light-grey">
+				<i class="fa fa-lock"></i>
+				<input type="password" id="loginPassword" autocomplete="off" class="auth-field-input password" placeholder="Password" />
+			</div>
+			<div class="auth-btn loginBtn w3-hover-red" ng-click="verifyLogin()">
+				<div class="auth-btn-text">Login</div>
+			</div>
+		</div>
+		<div class="box register-container">
+			<div class="auth-field w3-light-grey">
+				<i class="fa fa-user"></i>
+				<input type="text" id="registerUsername" autocomplete="off" class="auth-field-input username" placeholder="Username" />
+			</div>
+			<div class="auth-field w3-light-grey">
+				<i class="fa fa-lock"></i>
+				<input type="password" id="registerPassword" autocomplete="off" class="auth-field-input password" placeholder="Password" />
+			</div>
+			<div class="auth-field confirm-password-field w3-light-grey">
+				<i class="fa fa-lock"></i>
+				<input type="password" id="registerConfirmPassword" autocomplete="off" class="auth-field-input password" placeholder="Confirm Password" />
+			</div>
+			<div class="auth-btn registerBtn w3-hover-red" ng-click="registerUser()">
+				<div class="auth-btn-text">Register</div>
+			</div>
+		</div>
+	</div>
 </div>
