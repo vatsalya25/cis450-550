@@ -114,27 +114,39 @@ module.exports = function(app) {
 
   //LOGIN API: checks if user email already exists in database, if not, will create new user
   //Otherwise signs the user in 
- // app.get('/api/userLogin/:user', function(request, response) {
- //    inDatabase = []
- //    connection.query('select exists(select * from cis550.USERS where cis550.USERS.email = "syin@gmail.com")', request.params.user, function(err,res))
- //    // 
- //    //create new user
- //    connection.query('INSERT INTO cis550.USERS VALUES (first_name, last_name, UUID(), email, password, gender)', request.params.user, function(err, res) {
-    
- //    //login user: return true if user password and email in db
- //    connection.query('select exists(select * from cis550.USERS where cis550.USERS.email = "syin@gmail.com" and cis550.USERS.password = "hola")', request.params.user, function(err, res) {
+ app.get('/api/createUser', function(request, response) {
+  connection.query('INSERT INTO cis550.USERS VALUES ("Claire", "Frankel", UUID(), "claire@gmail.com", "bonjour", 0)', function(err, res) {
+    if(err)
+      response.send({status: "duplicate"}) 
+    else 
+      response.send({status: "ok"}); 
+  
+  });
+});
 
- //      if (err)
- //        response.send({err: err});
- //      var result = [];
- //      inDatabase = res.FIELD //use this in the future
- //      res.forEach(function(item, index) {
- //        result.push({Books: item.b.title, Movies: item.m.title});
- //      });
- //      console.log(request.params.name);
- //      response.send(result); //can only do this once
- //    });
- //  });
+  //checks if user and password exists to login
+  app.get('/api/login', function(request, response) {
+    inDB = []
+    connection.query('select exists(select * from cis550.USERS where cis550.USERS.email = "syin@.com" AND cis550.USERS.password = "hello") as E', function(err,res) {
+      var result = [];
+      saveResults(res)
+      if (err)
+        response.send({err: err});
+
+      if(inDB == 1) {
+        response.send({status: "in DB"})
+      }
+
+      else {
+        response.send({status: "not in DB"})
+      }
+      console.log(result)
+    });
+  });
+
+  function saveResults(value){
+    inDB = value[0].E
+  }
 
   //DISPLAY WATCHLIST MOVIES
   app.get('/api/watchlist', function(request, response) {
