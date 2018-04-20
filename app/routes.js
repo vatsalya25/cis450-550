@@ -14,7 +14,7 @@ module.exports = function(app) {
   // server routes ===========================================================
   // handle API calls
   app.get('/api/bookGenres', function(request, response) {
-    connection.query('SELECT genre, count(genre) FROM cis550.BOOK_GENRE group by genre having count(genre)>25 order by count(genre) desc;', function(err, res) {
+    connection.query('SELECT genre, count(genre) FROM cis550.BOOK_GENRES group by genre having count(genre)>25 order by count(genre) desc;', function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
@@ -40,12 +40,12 @@ module.exports = function(app) {
   });
 
   app.get('/api/popularBooks', function(request, response) {
-    connection.query('SELECT id, title, rating FROM cis550.book where rating >= 4 ORDER BY RAND() LIMIT 10;', function(err, res) {
+    connection.query('SELECT title, rating FROM cis550.BOOKS where rating >= 4 ORDER BY RAND() LIMIT 10;', function(err, res) {
       if (err)
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({name: item.title, rating: item.rating, index: item.id});
+        result.push({name: item.title, rating: item.rating});
       });
 
       response.send(result);
@@ -58,7 +58,7 @@ module.exports = function(app) {
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({name: item.title, rating: item.rating, index: item.id});
+        result.push({name: item.title, rating: item.rating});
       });
 
       response.send(result);
@@ -79,7 +79,7 @@ module.exports = function(app) {
     connection.query(query1, function(err, res) {
       if (err)
         response.send({err: err});
-      var bookResult = [];
+      var result = [];
       res.forEach(function(item, index) {
         bookResult.push({name: item.title, rating: item.rating, index: item.id});
       });
@@ -115,6 +115,10 @@ module.exports = function(app) {
       res.forEach(function(item, index) {
         bookResult.push({name: item.title, rating: item.rating});
       });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
 
       result.books = bookResult;
       var query2 = "SELECT m.title, m.rating FROM cis550.movie m WHERE m.rating >= 8 AND m.id IN (SELECT DISTINCT(movie_id) FROM cis550.MOVIE_GENRES WHERE genre IN " + request.body.genres + ") ORDER BY RAND() LIMIT 20;"
@@ -226,6 +230,8 @@ module.exports = function(app) {
 
         response.send(result);
       });
+      console.log(request.params.name);
+      response.send(result);
     });
   });
 
@@ -238,41 +244,27 @@ module.exports = function(app) {
         response.send({err: err});
       var result = [];
       res.forEach(function(item, index) {
-        result.push({name: item.title1, rating: item.rating1});
+        result.push({Title: item.title, Rating: item.rating});
       });
+      console.log(request.params.name);
+      response.send(result);
+    });
+  });
 
       response.send(result);
     });
   });
 
-  //user book recs (based on read history)
-  app.post('/api/userBook', function(request, response) {
-    var query1 = "SELECT b.title as title1, bg.genre, b.rating as rating1 FROM cis550.book b JOIN cis550.BOOK_GENRE bg ON b.id = bg.book_id LEFT JOIN cis550.READ r ON r.book_id = b.id JOIN (SELECT AVG(rating) as r, genre FROM cis550.READ r2 JOIN cis550.BOOK_GENRE bg2 ON bg2.book_id = r2.book_id WHERE r2.user_id =" + request.body.user_id + " GROUP BY genre ORDER BY AVG(rating) DESC LIMIT 2) tg ON tg.genre = bg.genre WHERE b.rating >=4 AND b.rating_count >=75000 ORDER BY RAND() LIMIT 10; "
-    // console.log(query1);
-    connection.query(query1, function(err, res) {
-      if (err)
-        response.send({err: err});
-      var result = [];
-      res.forEach(function(item, index) {
-        result.push({name: item.title1, rating: item.rating1});
-      });
-
-      response.send(result);
-    });
-  });
-
-  // added by Sandy
-
-  app.get('/api/allGenres', function(req, res) {
+  app.get('/api/allGenres', function(request, response) {
     res.send({'genre': 'something'});
   });
 
   // authentication routes
-  app.get('/api/login', function(req, res) {
+  app.get('/api/login', function(request, response) {
     res.send({'genre': 'something'});
   });
 
-  app.get('/api/register', function(req, res) {
+  app.get('/api/register', function(request, response) {
     res.send({'genre': 'something'});
   });
 
