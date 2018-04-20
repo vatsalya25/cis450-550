@@ -22,6 +22,7 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
   // GET the POPULAR books and movies
   $http({method: 'GET', url: '/api/popularBooks'}).then(function(data) {
     $scope.popularBooks = data.data;
+    console.log("popularBooks: ", $scope.popularBooks);
     console.log("popular books fetched");
   }).catch(function(data) {
     console.log('popular books err ', data);
@@ -62,10 +63,8 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
       }
 
       $scope.genreSuggestionList = $scope.movieGenres;
-      console.log('movies', $scope.genreSuggestionList);
     } else {
       $scope.genreSuggestionList = $scope.bookGenres;
-      console.log('books', $scope.genreSuggestionList);
     }
 
     $scope.selectedGenres = [];
@@ -110,16 +109,48 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
     }
   });
 
+  // SHOW RECOMMENDATIONS SEARCH: BOOKS
+  $scope.recommendWhenBooks = function() {
+    var data = '(';
+    if($scope.selectedGenres.length > 0) {
+      $scope.selectedGenres.forEach(function(val, index) {
+        if(index != $scope.selectedGenres.length-1)
+        data += "'" + val + "', ";
+        else
+        data += "'" + val + "'";
+      });
+      data += ')';
+      console.log(data);
+      $http({
+        method: 'POST',
+        url: '/api/guestBookGenreSearch',
+        data: {genres: data}
+      }).then(function(data) {
+        console.log(data.data.books);
+        $scope.popularBooks = [];
+        $scope.popularMovies = [];
+        $scope.popularBooks = data.data.books;
+        $scope.popularMovies = data.data.movies;
+        console.log($scope.popularBooks, $scope.popularMovies);
+      }).catch(function(data) {
+        console.log('recommendWhenBooks search err ', data);
+      });
+    }
+  }
+
+  // SHOW RECOMMENDATIONS SEARCH: MOVIES
+  $scope.recommendWhenMovies = function() {}
+
   // Rate Book
   $scope.rateBook = function(index, rating) {
     console.log(index, rating);
-    $("#bookRating"+index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-"+rating);
+    $("#bookRating" + index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + rating);
   }
 
   // Rate
   $scope.rateMovie = function(index, rating) {
     console.log(index, rating);
-    $("#movieRating"+index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-"+rating);
+    $("#movieRating" + index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + rating);
   }
 
   // LOGIN
