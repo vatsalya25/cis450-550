@@ -124,7 +124,7 @@ MongoClient.connect(url, function(err, db) {
   // Search based on list of genres guest user inputs:movie_genre -> books
   app.post('/api/guestMovieGenreSearch', function(request, response) {
     var result = {};
-    var query1 = "SELECT b.title, b.rating FROM cis550.book b WHERE b.rating >= 4 AND b.id IN (SELECT DISTINCT(bg.book_id) FROM cis550.BOOK_GENRE bg WHERE bg.genre IN (SELECT book_genre FROM cis550.GENRES WHERE movie_genre IN " + request.body.genres + ")) ORDER BY RAND() LIMIT 20;";
+    var query1 = "SELECT b.title, b.rating FROM cis550.book b JOIN 	(SELECT DISTINCT(bg.book_id) FROM cis550.BOOK_GENRE bg JOIN	(SELECT book_genre FROM cis550.GENRES WHERE movie_genre IN " + request.body.genres + ") d ON bg.genre = d.book_genre) e ON b.id = e.book_id WHERE b.rating >= 4 ORDER BY RAND() LIMIT 20";
 
     connection.query(query1, function(err, res) {
       if (err)
