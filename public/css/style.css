@@ -353,6 +353,29 @@ header {
   top: 255px;
 }
 
+/* -------------- */
+
+/* Style for My Recommendations page */
+
+/* -------------- */
+
+.recommend-container {
+  width: 80%;
+  margin: auto;
+}
+
+.recommend-container .title {
+  margin: 20px auto;
+}
+
+.books-container div, .movies-container div {
+  padding: 0;
+}
+
+.recommend-container .popular-column {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 /* Common */
 
 a:hover {
