@@ -139,7 +139,50 @@ angular.module('MainCtrl', ['star-rating']).controller('MainController', functio
   }
 
   // SHOW RECOMMENDATIONS SEARCH: MOVIES
-  $scope.recommendWhenMovies = function() {}
+  $scope.recommendWhenMovies = function() {
+    var data = '(';
+    if($scope.selectedGenres.length > 0) {
+      $scope.selectedGenres.forEach(function(val, index) {
+        if(index != $scope.selectedGenres.length-1)
+        data += "'" + val + "', ";
+        else
+        data += "'" + val + "'";
+      });
+      data += ')';
+      console.log(data);
+      $http({
+        method: 'POST',
+        url: '/api/guestMovieGenreSearch',
+        data: {genres: data}
+      }).then(function(data) {
+        console.log(data.data.books);
+        $scope.popularBooks = [];
+        $scope.popularMovies = [];
+        $scope.popularBooks = data.data.books;
+        $scope.popularMovies = data.data.movies;
+        console.log($scope.popularBooks, $scope.popularMovies);
+      }).catch(function(data) {
+        console.log('recommendWhenMovies search err ', data);
+      });
+    }
+  }
+
+  // Random recommendations
+  $scope.randomRecommend = function() {
+    $http({
+      method: 'GET',
+      url: '/api/randBook'
+    }).then(function(data) {
+      console.log(data.data.books);
+      $scope.popularBooks = [];
+      $scope.popularMovies = [];
+      $scope.popularBooks = data.data.books;
+      $scope.popularMovies = data.data.movies;
+      console.log($scope.popularBooks, $scope.popularMovies);
+    }).catch(function(data) {
+      console.log('randomRecommend search err ', data);
+    });
+  }
 
   // Rate Book
   $scope.rateBook = function(index, rating) {
