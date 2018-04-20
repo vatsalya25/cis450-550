@@ -1,139 +1,147 @@
-<div class="container home-container w3-dark-grey w3-display-container w3-content w3-hide-small" ng-controller="MainController">
-	<div class="w3-display-middle recommend-box">
-		<div class="w3-bar w3-black">
-			<button class="w3-bar-item w3-button tablink w3-red" ng-click="openLink($event, 'Books')"><i class="fa fa-book w3-margin-right"></i>Books</button>
-			<button class="w3-bar-item w3-button tablink" ng-click="openLink($event, 'Movies')"><i class="fa fa-film w3-margin-right"></i>Movies</button>
-		</div>
+<div ng-controller="MainController as main">
+	<div class="container home-container w3-dark-grey w3-display-container w3-content w3-hide-small">
+		<div class="w3-display-middle recommend-box">
+			<div class="w3-bar w3-black">
+				<button class="w3-bar-item w3-button tablink w3-red" ng-click="openLink($event, 'Books')"><i class="fa fa-book w3-margin-right"></i>Books</button>
+				<button class="w3-bar-item w3-button tablink" ng-click="openLink($event, 'Movies')"><i class="fa fa-film w3-margin-right"></i>Movies</button>
+			</div>
 
-		<!-- Tabs -->
-		<div id="Books" class="w3-container w3-white w3-padding-16 myLink">
-			<h3>Enter books for the search</h3>
-			<div class="w3-row-padding input-container" style="margin:0 -16px;">
-				<div class="w3-half single-input">
-					<label>By Name</label>
-					<input id="searchBookName" class="genre-search w3-input w3-border" type="text" placeholder="Names">
-				</div>
-				<div class="w3-half single-input">
-					<label>By Genre</label>
-					<input id="searchBookGenre" class="genre-search w3-input w3-border" type="text" placeholder="Genres" ng-model="genreText" ng-click="addGenreSearch()">
-					<div class="genre-selected-tags">
-						<div class="tag w3-light-grey" ng-repeat="tag in selectedGenres">
-							<div class="text">{{tag}}</div>
-							<i class="fa fa-close" ng-click="removeSelectedTag(tag)"></i>
+			<!-- Tabs -->
+			<div id="Books" class="w3-container w3-white w3-padding-16 myLink">
+				<h3>Enter books for the search</h3>
+				<div class="w3-row-padding input-container" style="margin:0 -16px;">
+					<div class="w3-half single-input">
+						<label>By Name</label>
+						<input id="searchBookName" class="genre-search w3-input w3-border" type="text" placeholder="Book Name" ng-model="nameText">
+					</div>
+					<div class="w3-half single-input">
+						<label>By Genre</label>
+						<input id="searchBookGenre" class="genre-search w3-input w3-border" type="text" placeholder="Genres" ng-model="genreText" ng-click="addGenreSearch()">
+						<div class="genre-selected-tags">
+							<div class="tag w3-light-grey" ng-repeat="tag in selectedGenres">
+								<div class="text">{{tag}}</div>
+								<i class="fa fa-close" ng-click="removeSelectedTag(tag)"></i>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<p><button class="recommend-btn w3-button w3-dark-grey">Recommend Books</button></p>
-		</div>
-
-		<div id="Movies" class="w3-container w3-white w3-padding-16 myLink">
-			<h3>Enter movies for the search</h3>
-			<div class="w3-row-padding input-container" style="margin:0 -16px;">
-				<div class="w3-half single-input">
-					<label>By Name</label>
-					<input id="searchMovieName" class="genre-search w3-input w3-border" type="text" placeholder="Names">
+				<div>
+					<button class="recommend-btn w3-button w3-dark-grey" ng-click="recommendWhenBooks()">Recommend Me</button>
+					<button class="recommend-btn w3-button w3-red" ng-click="randomRecommend()">I'm feeling lucky</button>
 				</div>
-				<div class="w3-half single-input">
-					<label>By Genre</label>
-					<input id="searchMovieGenre" class="genre-search w3-input w3-border" type="text" placeholder="Genres" ng-model="genreText" ng-click="addGenreSearch()">
-					<div class="genre-selected-tags">
-						<div class="tag w3-light-grey" ng-repeat="tag in selectedGenres">
-							<div class="text">{{tag}}</div>
-							<i class="fa fa-close" ng-click="removeSelectedTag(tag)"></i>
+			</div>
+
+			<div id="Movies" class="w3-container w3-white w3-padding-16 myLink">
+				<h3>Enter movies for the search</h3>
+				<div class="w3-row-padding input-container" style="margin:0 -16px;">
+					<div class="w3-half single-input">
+						<label>By Name</label>
+						<input id="searchMovieName" class="genre-search w3-input w3-border" type="text" placeholder="Movie Name" ng-model="nameText">
+					</div>
+					<div class="w3-half single-input">
+						<label>By Genre</label>
+						<input id="searchMovieGenre" class="genre-search w3-input w3-border" type="text" placeholder="Genres" ng-model="genreText" ng-click="addGenreSearch()">
+						<div class="genre-selected-tags">
+							<div class="tag w3-light-grey" ng-repeat="tag in selectedGenres">
+								<div class="text">{{tag}}</div>
+								<i class="fa fa-close" ng-click="removeSelectedTag(tag)"></i>
+							</div>
 						</div>
 					</div>
 				</div>
+				<div>
+					<button class="recommend-btn w3-button w3-dark-grey" ng-click="recommendWhenMovies()">Recommend Me</button>
+					<button class="recommend-btn w3-button w3-red" ng-click="randomRecommend()">I'm feeling lucky</button>
+				</div>
 			</div>
-			<p><button class="recommend-btn w3-button w3-dark-grey">Recommend Movies</button></p>
+
+			<ul class="genre-suggestions w3-light-grey" ng-if="genreSearchActive">
+				<li ng-repeat="item in genreSuggestionList | filter:genreText:strict" class="genre-list-item" ng-click="selectGenreItem(item)">{{item}}</li>
+			</ul>
 		</div>
 
-		<ul class="genre-suggestions w3-light-grey" ng-if="genreSearchActive">
-			<li ng-repeat="item in genreSuggestionList | filter:genreText:strict" class="genre-list-item" ng-click="selectGenreItem(item)">{{item}}</li>
-		</ul>
 	</div>
 
-</div>
-
-<!-- Show Latest content -->
-<div class="w3-container popular-container w3-light-grey" ng-controller="MainController">
-	<div class="w3-half popular-column book-column w3-container w3-white">
-		<h3 class="title w3-margin-bottom w3-margin-top">Popular Books</h3>
-		<div class="popular-list heading w3-margin-bottom w3-margin-top">
-			<div class="popular-item">
-				<div class="text">Name</div>
-				<div class="rating-title">Your rating</div>
-				<div class="global-rating">Overall</div>
+	<!-- Show Latest content -->
+	<div class="w3-container popular-container w3-light-grey">
+		<div class="w3-half popular-column book-column w3-container w3-white">
+			<h3 class="title w3-margin-bottom w3-margin-top">Recommended Books</h3>
+			<div class="popular-list heading w3-margin-bottom w3-margin-top">
+				<div class="popular-item">
+					<div class="text">Name</div>
+					<div class="rating-title">Your rating</div>
+					<div class="global-rating">Overall</div>
+				</div>
 			</div>
-		</div>
-		<div class="popular-list w3-margin-bottom w3-margin-top">
-			<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in popularBooks">
-				<div class="text">{{item.name}}</div>
-				<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
-					<div class="star-container">
-						<div class="star" ng-click="rateBook(item.index, 1)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateBook(item.index, 2)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateBook(item.index, 3)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateBook(item.index, 4)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateBook(item.index, 5)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
+			<div class="popular-list w3-margin-bottom w3-margin-top">
+				<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in popularBooks">
+					<div class="text">{{item.name}}</div>
+					<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
+						<div class="star-container">
+							<div class="star" ng-click="rateBook(item.index, 1)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateBook(item.index, 2)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateBook(item.index, 3)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateBook(item.index, 4)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateBook(item.index, 5)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
 						</div>
 					</div>
+					<div class="global-rating">{{item.rating}}</div>
 				</div>
-				<div class="global-rating">{{item.rating}}</div>
 			</div>
 		</div>
-	</div>
-	<div class="w3-half popular-column movie-column w3-container w3-white">
-		<h3 class="title w3-margin-bottom w3-margin-top">Popular Movies</h3>
-		<div class="popular-list heading w3-margin-bottom w3-margin-top">
-			<div class="popular-item">
-				<div class="text">Name</div>
-				<div class="rating-title">Your rating</div>
-				<div class="global-rating">Overall</div>
+		<div class="w3-half popular-column movie-column w3-container w3-white">
+			<h3 class="title w3-margin-bottom w3-margin-top">Recommended Movies</h3>
+			<div class="popular-list heading w3-margin-bottom w3-margin-top">
+				<div class="popular-item">
+					<div class="text">Name</div>
+					<div class="rating-title">Your rating</div>
+					<div class="global-rating">Overall</div>
+				</div>
 			</div>
-		</div>
-		<div class="popular-list w3-margin-bottom w3-margin-top">
-			<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in popularMovies">
-				<div class="text">{{item.name}}</div>
-				<div id="movieRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
-					<div class="star-container">
-						<div class="star" ng-click="rateMovie(item.index, 1)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateMovie(item.index, 2)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateMovie(item.index, 3)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateMovie(item.index, 4)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
-						</div>
-						<div class="star" ng-click="rateMovie(item.index, 5)">
-							<i class="star-empty"></i>
-							<i class="star-filled"></i>
+			<div class="popular-list w3-margin-bottom w3-margin-top">
+				<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in popularMovies">
+					<div class="text">{{item.name}}</div>
+					<div id="movieRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
+						<div class="star-container">
+							<div class="star" ng-click="rateMovie(item.index, 1)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateMovie(item.index, 2)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateMovie(item.index, 3)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateMovie(item.index, 4)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
+							<div class="star" ng-click="rateMovie(item.index, 5)">
+								<i class="star-empty"></i>
+								<i class="star-filled"></i>
+							</div>
 						</div>
 					</div>
+					<div class="global-rating">{{item.rating}}</div>
 				</div>
-				<div class="global-rating">{{item.rating}}</div>
 			</div>
 		</div>
 	</div>
