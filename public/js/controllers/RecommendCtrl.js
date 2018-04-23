@@ -8,6 +8,10 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
   $scope.bookSearchList = [];
 	$scope.bookSearch = false;
 	$scope.movieSearch = false;
+  $scope.bookResultEmpty = false;
+	$scope.movieResultEmpty = false;
+	$scope.readlistEmpty = false;
+	$scope.watchlistEmpty = false;
 	$scope.bookSearchInput = "";
 	$scope.movieSearchInput = "";
 	$scope.movieSearchOption = "";
@@ -23,6 +27,11 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
   }).then(function(data) {
     $scope.readlist = [];
     $scope.readlist = data.data;
+		if($scope.readlist.length === 0) {
+			$scope.readlistEmpty = true;
+		} else {
+			$scope.readlistEmpty = false;
+		}
     $timeout(function() {
       $scope.readlist.forEach(function(item) {
         $("#bookRating" + item.index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + item.user_rating);
@@ -38,7 +47,15 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
 			}).then(function(data) {
 				$scope.recommendedBooks = [];
 				$scope.recommendedBooks = data.data;
+				console.log($scope.recommendedBooks, $scope.recommendedBooks.length);
+				if($scope.recommendedBooks.length === 0) {
+					$scope.bookResultEmpty = true;
+				} else {
+					$scope.bookResultEmpty = false;
+				}
 			})
+		} else {
+			$scope.bookResultEmpty = true;
 		}
   }).catch(function(err) {
     console.log('fetch err ', err);
@@ -54,6 +71,11 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
   }).then(function(data) {
     $scope.watchlist = [];
     $scope.watchlist = data.data;
+		if($scope.watchlist.length === 0) {
+			$scope.watchlistEmpty = true;
+		} else {
+			$scope.watchlistEmpty = false;
+		}
     $timeout(function() {
       $scope.watchlist.forEach(function(item) {
         $("#movieRating" + item.index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + item.user_rating);
@@ -69,7 +91,14 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
 			}).then(function(data) {
 				$scope.recommendedMovies = [];
 				$scope.recommendedMovies = data.data;
-			});
+				if($scope.recommendedMovies.length === 0) {
+					$scope.movieResultEmpty = true;
+				} else {
+					$scope.movieResultEmpty = false;
+				}
+			})
+		} else {
+			$scope.movieResultEmpty = true;
 		}
   }).catch(function(data) {
     console.log('movies fetch err ', data);
@@ -100,6 +129,7 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
     }).then(function(data) {
 			$scope.readlist = [];
 			$scope.readlist = data.data;
+			$scope.readlistEmpty = false;
 			$timeout(function() {
 				$scope.readlist.forEach(function(item) {
 					$("#bookRating" + item.index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + item.user_rating);
@@ -135,6 +165,7 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
     }).then(function(data) {
 			$scope.watchlist = [];
 			$scope.watchlist = data.data;
+			$scope.watchlistEmpty = false;
 			$timeout(function() {
 				$scope.watchlist.forEach(function(item) {
 					$("#movieRating" + item.index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + item.user_rating);
@@ -198,6 +229,11 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
 		  }).then(function(data) {
 		    $scope.readlist = [];
 		    $scope.readlist = data.data;
+				if($scope.readlist.length === 0) {
+					$scope.readlistEmpty = true;
+				} else {
+					$scope.readlistEmpty = false;
+				}
 		    $timeout(function() {
 		      $scope.readlist.forEach(function(item) {
 		        $("#bookRating" + item.index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + item.user_rating);
@@ -218,6 +254,11 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
 		  }).then(function(data) {
 		    $scope.watchlist = [];
 		    $scope.watchlist = data.data;
+				if($scope.watchlist.length === 0) {
+					$scope.watchlistEmpty = true;
+				} else {
+					$scope.watchlistEmpty = false;
+				}
 		    $timeout(function() {
 		      $scope.watchlist.forEach(function(item) {
 		        $("#movieRating" + item.index).removeClass("value-0 value-1 value-2 value-3 value-4 value-5").addClass("value-" + item.user_rating);
@@ -241,6 +282,11 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
 			}).then(function(data) {
 				$scope.recommendedBooks = [];
 				$scope.recommendedBooks = data.data;
+				if($scope.recommendedBooks.length === 0) {
+					$scope.bookResultEmpty = true;
+				} else {
+					$scope.bookResultEmpty = false;
+				}
 			})
 		} else {
 			$http({
@@ -252,6 +298,11 @@ angular.module('RecommendCtrl', []).controller('RecommendController', function($
 			}).then(function(data) {
 				$scope.recommendedMovies = [];
 				$scope.recommendedMovies = data.data;
+				if($scope.recommendedMovies.length === 0) {
+					$scope.movieResultEmpty = true;
+				} else {
+					$scope.movieResultEmpty = false;
+				}
 			});
 		}
 	}

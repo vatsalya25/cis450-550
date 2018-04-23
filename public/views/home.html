@@ -131,6 +131,9 @@
 					<div class="global-rating">{{item.rating}}</div>
 				</div>
 			</div>
+			<div class="popular-empty w3-margin-bottom w3-center" ng-if="bookResultEmpty">
+				No results found. Add a few items to get recommendations.
+			</div>
 		</div>
 
 		<!-- MOVIES CCOLUMN -->
@@ -172,6 +175,9 @@
 					</div>
 					<div class="global-rating">{{item.rating}}</div>
 				</div>
+			</div>
+			<div class="popular-empty w3-margin-bottom w3-center" ng-if="movieResultEmpty">
+				No results found. Add a few items to get recommendations.
 			</div>
 		</div>
 	</div>

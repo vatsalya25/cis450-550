@@ -250,6 +250,14 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.auth-container .google-login-btn {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .auth-container .auth-box {
@@ -454,7 +462,7 @@ a:hover {
   z-index: 3;
   opacity: 1;
   left: 50%;
-  top: 120px;
+  top: 220px;
   transform: translateX(-50%);
   border-radius: 5px;
   color: #fff;

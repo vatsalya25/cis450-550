@@ -1,4 +1,5 @@
-<div class="auth-container w3-container w3-light-grey" ng-controller="LoginController">
+<div id="loginScope" class="auth-container w3-container w3-light-grey" ng-controller="LoginController">
+	<div id="my-signin2" class="g-signin2 google-login-btn" data-onsuccess="onSignIn"></div>
 	<div class="auth-box w3-white">
 		<!-- Login -->
 		<div class="box login-container">
@@ -41,4 +42,63 @@
 		<div class="warning hidden">Error</div>
 
 	</div>
+	<script>
+		function onSuccess(googleUser) {
+			console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+			var profile = googleUser.getBasicProfile();
+			console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+			console.log('Name: ' + profile.getName());
+			console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+			var angScope = angular.element(document.getElementById('loginScope')).scope();
+			angScope.googleSignIn(profile.getName(), profile.getEmail(), 'password');
+			setTimeout(function() {
+				var auth2 = gapi.auth2.getAuthInstance();
+				auth2.disconnect();
+			}, 100);
+		}
+
+		function onFailure(error) {
+			console.log(error);
+		}
+
+		function renderButton() {
+			gapi.signin2.render('my-signin2', {
+				'scope': 'profile email',
+				'width': 240,
+				'height': 50,
+				'longtitle': true,
+				'onsuccess': onSuccess,
+				'onfailure': onFailure
+			});
+		}
+
+		function onSignIn(googleUser) {
+			var profile = googleUser.getBasicProfile();
+			console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+			console.log('Name: ' + profile.getName());
+			console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+			var angScope = angular.element(document.getElementById('loginScope')).scope();
+			angScope.googleSignIn(profile.getName(), profile.getEmail(), 'password');
+			setTimeout(function() {
+				var auth2 = gapi.auth2.getAuthInstance();
+				auth2.disconnect();
+			}, 100);
+		}
+
+		$('#logout').on('click', function() {
+			if (localStorage.getItem('googleId') == 'true') {
+				localStorage.setItem('googleId', 'false');
+				var auth2 = gapi.auth2.getAuthInstance();
+				auth2.signOut().then(function() {
+					console.log('Google User signed out.');
+					auth2.disconnect();
+				});
+			}
+		})
+	</script>
+	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </div>

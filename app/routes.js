@@ -4,6 +4,13 @@ var mongo = require('mongodb');
 var mongoClient = mongo.MongoClient;
 var mongoUrl = "mongodb://cis550:cis550@ds249299.mlab.com:49299/cis550m";
 
+// API key
+// AIzaSyC6E43p1-Koj8A_4MOGAwjfj7TImWpdGZM
+// Client ID
+// 241577044081-1r96qmg4b9vvehokbou96g6chsgm1l47.apps.googleusercontent.com
+// Client Secret
+// 1J3ijKyhZlTQO4wqqQA4pxuh
+
 module.exports = function(app) {
   var connection = mysql.createConnection({
     host: 'cis550project.c1plmbfccyny.us-east-1.rds.amazonaws.com',
@@ -20,19 +27,6 @@ module.exports = function(app) {
 
     console.log('connected in routes as id ' + connection.threadId);
   });
-
-  // mongoClient.connect(mongoUrl, function(err, db) {
-  //   if (err)
-  //     throw "MONGO ERR";
-  //
-  //   console.log("Connected to MONGO");
-  //   const dbName = 'series';
-  //   db.collection(dbName).findOne({"id": 8}, function(err, result) {
-  //     if (err) throw err;
-  //     console.log(result);
-  //     db.close();
-  //   });
-  // });
 
   // server routes ===========================================================
   // handle API calls
@@ -299,7 +293,6 @@ module.exports = function(app) {
         }).then(data => {
           var matchString = '(';
           data.genres.forEach(function(val, index) {
-            console.log("val: ", val);
             if (index != data.genres.length - 1)
               matchString += "'" + val.name + "', ";
             else
@@ -396,7 +389,6 @@ module.exports = function(app) {
   app.post('/api/userBook', function(request, response) {
     var query1 = "SELECT DISTINCT b.id, b.title as title1, bg.genre, b.rating as rating1 FROM cis550.book b JOIN cis550.BOOK_GENRE bg ON b.id = bg.book_id LEFT JOIN cis550.READ r ON r.book_id = b.id JOIN (SELECT AVG(rating) as r, genre FROM cis550.READ r2 JOIN cis550.BOOK_GENRE bg2 ON bg2.book_id = r2.book_id WHERE r2.user_id =" + request.body.user_id + " GROUP BY genre ORDER BY AVG(rating) DESC LIMIT 4) tg ON tg.genre = bg.genre WHERE b.rating >=3.75 AND b.rating_count >=75000 ORDER BY RAND() LIMIT 10; "
 
-    // console.log(query1);
     connection.query(query1, function(err, res) {
       if (err)
         response.send({err: err});
@@ -414,7 +406,7 @@ module.exports = function(app) {
   //LOGIN API: checks if user email already exists in database, if not, will create new user
   //Otherwise signs the user in
   app.post('/api/register', function(request, response) {
-    var query = 'INSERT INTO cis550.USERS VALUES ("' + request.body.fname + '", "' + request.body.lname + '", UUID(), "' + request.body.email + '", "' + request.body.password + '")'
+    var query = 'INSERT INTO cis550.USERS VALUES ("' + request.body.fname + '", "' + request.body.lname + '", NULL, "' + request.body.email + '", "' + request.body.password + '")'
 
     connection.query(query, function(err, res) {
       if (err)
@@ -454,11 +446,26 @@ module.exports = function(app) {
         response.send({status: "error"})
       }
     });
+
+    function saveResults(value) {
+      inDB = value[0].E
+    }
   });
 
-  function saveResults(value) {
-    inDB = value[0].E
-  }
+  //Otherwise signs the user in
+  app.post('/api/googleLogin', function(request, response) {
+    var query = 'INSERT INTO cis550.USERS VALUES ("' + request.body.fname + '", "' + request.body.lname + '", NULL, "' + request.body.email + '", "' + request.body.password + '")'
+
+    connection.query(query, function(err, res) {
+      connection.query('SELECT user_id, first_name FROM cis550.USERS WHERE email = "' + request.body.email + '"', function(err1, res1) {
+          if (err1)
+          response.send({err: err1});
+          else
+          response.send({status: "ok", fname: res1[0].first_name, user_id: res1[0].user_id});
+        }
+      );
+    });
+  });
 
   //DISPLAY WATCHLIST MOVIES
   app.post('/api/watchlist', function(request, response) {
@@ -518,7 +525,6 @@ module.exports = function(app) {
 
   //Search for movies based on Name, return movie title and average rating
   app.post('/api/searchMovie', function(request, response) {
-    console.log(request.body);
     var query = 'SELECT M.id, M.title, M.rating FROM cis550.movie as M WHERE M.title LIKE "%' + request.body.name + '%" AND M.id NOT IN (SELECT movie_id FROM cis550.WATCHED as R WHERE R.user_id = ' + request.body.user_id + ') ORDER BY M.rating DESC LIMIT 20';
 
     connection.query(query, function(err, res) {
@@ -535,7 +541,6 @@ module.exports = function(app) {
 
   //Search for books based on Name, return book title and average rating
   app.post('/api/searchBook', function(request, response) {
-    console.log(request.body);
     var query = 'SELECT B.id, B.title, B.rating FROM cis550.book as B WHERE B.title LIKE "%' + request.body.name + '%" AND B.id NOT IN (SELECT book_id FROM cis550.READ as R WHERE R.user_id = ' + request.body.user_id + ') ORDER BY B.rating DESC LIMIT 20';
 
     connection.query(query, function(err, res) {

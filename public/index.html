@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="google-signin-client_id" content="241577044081-1r96qmg4b9vvehokbou96g6chsgm1l47.apps.googleusercontent.com">
 	<base href="/">
 
 	<title>Starter Node and Angular</title>
@@ -25,6 +26,8 @@
 	<script src="libs/angular/angular.min.js"></script>
 	<script src="libs/angular-route/angular-route.min.js"></script>
 	<script src="https://cdn.rawgit.com/BioPhoton/angular1-star-rating/v1.2.4/dist/index.js"></script>
+	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+
 
 	<!-- ANGULAR CUSTOM -->
 	<script src="js/controllers/MainCtrl.js"></script>
@@ -57,10 +60,9 @@
 
 		<ul id="registeredUserOptions" class="account-options hidden w3-white">
 			<li class="option w3-hover-red" ng-click="myRecommend()">My Recommendations</li>
-			<li class="option w3-hover-red" ng-click="logout()">Log out</li>
+			<li id="logout" class="option w3-hover-red" ng-click="logout()">Log out</li>
 		</ul>
 	</header>
-
 
 	<!-- ANGULAR DYNAMIC CONTENT -->
 	<div ng-view></div>

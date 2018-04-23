@@ -101,6 +101,9 @@
 						<div class="global-rating">{{item.rating}}</div>
 					</div>
 				</div>
+				<div class="popular-empty w3-margin-bottom w3-center" ng-if="readlistEmpty">
+					No books rated. Rate a few to get better recommendations.
+				</div>
 			</div>
 
 			<!-- RECOMMENDED BOOKS -->
@@ -147,6 +150,9 @@
 						</div>
 						<div class="global-rating">{{item.rating}}</div>
 					</div>
+				</div>
+				<div class="popular-empty w3-margin-bottom w3-center" ng-if="bookResultEmpty">
+					No results found. Add a few items to get recommendations.
 				</div>
 			</div>
 		</div>
@@ -263,6 +269,9 @@
 						<div class="global-rating">{{item.rating}}</div>
 					</div>
 				</div>
+				<div class="popular-empty w3-margin-bottom w3-center" ng-if="watchlistEmpty">
+					No movies rated. Rate a few to get better recommendations.
+				</div>
 			</div>
 
 			<!-- RECOMMENDED MOVIES -->
@@ -309,6 +318,9 @@
 						</div>
 						<div class="global-rating">{{item.rating}}</div>
 					</div>
+				</div>
+				<div class="popular-empty w3-margin-bottom w3-center" ng-if="movieResultEmpty">
+					No results found. Add a few items to get recommendations.
 				</div>
 			</div>
 		</div>

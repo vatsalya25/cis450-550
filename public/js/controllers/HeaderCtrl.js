@@ -25,11 +25,14 @@ angular.module('HeaderCtrl', []).controller('HeaderController', function($scope,
 
   // Logout
   $scope.logout = function() {
-    localStorage.clear();
-    $scope.newUser = true;
-    angular.element('.account-options').addClass('hidden');
-    $('#userName').text("Account");
-    $location.path('/login');
+    $timeout(function() {
+      localStorage.clear();
+      $scope.newUser = true;
+      angular.element('.account-options').addClass('hidden');
+      $('#userName').text("Account");
+      console.log('User signed out.');
+      $location.path('/');
+    }, 300);
   }
 
   $scope.$on('loggedIn', function(event, args) {

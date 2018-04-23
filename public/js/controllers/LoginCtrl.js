@@ -81,4 +81,36 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
     }
   }
 
+	// Google login
+	$scope.googleSignIn = function(name, email, password) {
+		console.log(name, email, password);
+		const fname = name.split(' ')[0];
+		const lname = name.split(' ')[1];
+		$http({
+			method: 'POST',
+			url: '/api/googleLogin',
+			data: {
+				fname: fname,
+				lname: lname,
+				email: email,
+				password: password
+			}
+		}).then(status => {
+			console.log(status);
+			if (status.data.status === "ok") {
+				$window.localStorage.setItem('name', status.data.fname);
+				$window.localStorage.setItem('userId', status.data.user_id);
+				$window.localStorage.setItem('loggedIn', true);
+				$window.localStorage.setItem('googleId', true);
+				Login.modifyLoggedStatus(false);
+				$rootScope.$broadcast('loggedIn');
+				$location.path('/');
+			} else if (status.data.status === "duplicate") {
+				$('.warning').text("Username already exists");
+				$('.warning').removeClass('hidden');
+				setTimeout(() => $('.warning').addClass('hidden'), 3000);
+			}
+		}).catch(error => console.log(error));
+	}
+
 });

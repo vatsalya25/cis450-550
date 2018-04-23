@@ -3,6 +3,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
   $scope.genreSearchActive = false;
   $scope.nameText = "";
   $scope.newUser = true;
+  $scope.movieResultEmpty = false;
+  $scope.bookResultEmpty = false;
   $scope.bookGenres = [],
   $scope.movieGenres = [],
   $scope.seriesGenres = [],
@@ -123,6 +125,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         $scope.popularMovies = [];
         $scope.popularBooks = data.data.books;
         $scope.popularMovies = data.data.movies;
+        $scope.bookResultEmpty = false;
+        $scope.movieResultEmpty = false;
         console.log($scope.popularBooks, $scope.popularMovies);
       }).catch(function(data) {
         console.log('recommendWhenBooks search err ', data);
@@ -150,6 +154,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
           $scope.popularMovies = [];
           $scope.popularBooks = data.data.books;
           $scope.popularMovies = data.data.movies;
+          $scope.bookResultEmpty = false;
+          $scope.movieResultEmpty = false;
           console.log($scope.popularBooks, $scope.popularMovies);
         }).catch(function(data) {
           console.log('recommendWhenBooks search err ', data);
@@ -174,6 +180,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         $scope.popularMovies = [];
         $scope.popularBooks = data.data.books;
         $scope.popularMovies = data.data.movies;
+        $scope.bookResultEmpty = false;
+        $scope.movieResultEmpty = false;
         console.log($scope.popularBooks, $scope.popularMovies);
       }).catch(function(data) {
         console.log('recommendWhenBooks search err ', data);
@@ -201,6 +209,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
           $scope.popularMovies = [];
           $scope.popularBooks = data.data.books;
           $scope.popularMovies = data.data.movies;
+          $scope.bookResultEmpty = false;
+          $scope.movieResultEmpty = false;
           console.log($scope.popularBooks, $scope.popularMovies);
         }).catch(function(data) {
           console.log('recommendWhenMovies search err ', data);
@@ -221,6 +231,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         $scope.popularMovies = [];
         $scope.popularBooks = data.data.books;
         $scope.popularMovies = data.data.movies;
+        $scope.bookResultEmpty = false;
+        $scope.movieResultEmpty = false;
         console.log($scope.popularBooks, $scope.popularMovies);
       }).catch(function(data) {
         console.log('recommendWhenBooks search err ', data);
@@ -248,6 +260,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
           $scope.popularMovies = [];
           $scope.popularBooks = data.data.books;
           $scope.popularMovies = data.data.movies;
+          $scope.bookResultEmpty = false;
+          $scope.movieResultEmpty = false;
           console.log($scope.popularBooks, $scope.popularMovies);
         }).catch(function(data) {
           console.log('recommendWhenMovies search err ', data);
@@ -260,12 +274,14 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
   $scope.randomRecommend = function() {
     $scope.selectedGenres = [];
     $scope.nameText = "";
-    
+
     $http({method: 'GET', url: '/api/randBook'}).then(function(data) {
       $scope.popularBooks = [];
       $scope.popularMovies = [];
       $scope.popularBooks = data.data.books;
       $scope.popularMovies = data.data.movies;
+      $scope.bookResultEmpty = false;
+      $scope.movieResultEmpty = false;
       console.log($scope.popularBooks, $scope.popularMovies);
     }).catch(function(data) {
       console.log('randomRecommend search err ', data);
@@ -330,6 +346,9 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
       }).then(function(data) {
         $scope.popularBooks = [];
         $scope.popularBooks = data.data;
+        if($scope.popularBooks.length === 0) {
+          $scope.bookResultEmpty = true;
+        }
       });
 
       $http({
@@ -341,6 +360,9 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
       }).then(function(data) {
         $scope.popularMovies = [];
         $scope.popularMovies = data.data;
+        if($scope.popularMovies.length === 0) {
+          $scope.movieResultEmpty = true;
+        }
       });
     } else {
       // GET the POPULAR books and movies
@@ -348,11 +370,13 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
       $http({method: 'GET', url: '/api/popularBooks'}).then(function(data) {
         $scope.popularBooks = []
         $scope.popularBooks = data.data;
+        $scope.bookResultEmpty = false;
 
         return $http({method: 'GET', url: '/api/popularMovies'})
       }).then(function(data) {
         $scope.popularMovies = []
         $scope.popularMovies = data.data;
+        $scope.movieResultEmpty = false;
       }).catch(function(data) {
         console.log('popular books err ', data);
       });
