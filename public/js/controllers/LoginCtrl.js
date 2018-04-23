@@ -1,4 +1,4 @@
-angular.module('LoginCtrl', []).controller('LoginController', function($scope, $http, $location, $window) {
+angular.module('LoginCtrl', []).controller('LoginController', function($scope, $http, $location, $window, $rootScope, Login) {
 
   $scope.verifyLogin = function() {
     const lNode = $('.loginBtn');
@@ -23,6 +23,8 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
 					$window.localStorage.setItem('name', status.data.fname);
 					$window.localStorage.setItem('userId', status.data.user_id);
 					$window.localStorage.setItem('loggedIn', true);
+					Login.modifyLoggedStatus(false);
+					$rootScope.$broadcast('loggedIn');
 					$location.path('/');
         } else if (status.data.status === "error") {
           $('.warning').text("Username or password is incorrect");
@@ -66,6 +68,8 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
 						$window.localStorage.setItem('name', status.data.fname);
 						$window.localStorage.setItem('userId', status.data.user_id);
 						$window.localStorage.setItem('loggedIn', true);
+						Login.modifyLoggedStatus(false);
+						$rootScope.$broadcast('loggedIn');
 						$location.path('/');
 					} else if (status.data.status === "duplicate") {
 						$('.warning').text("Username already exists");
@@ -75,12 +79,6 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
 				}).catch(error => console.log(error));
 			}
     }
-  }
-
-  // Logout
-  $scope.logout = function() {
-    localStorage.clear();
-    $location.path('/login');
   }
 
 });

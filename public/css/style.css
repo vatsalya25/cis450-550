@@ -47,6 +47,7 @@ header {
   height: 40px;
   padding: 0 10px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .option a {
@@ -152,7 +153,7 @@ header {
 
 .popular-container {
   width: 80%;
-  margin: 0 auto;
+  margin: 0 auto 100px;
   /* display: flex; */
 }
 
@@ -166,6 +167,29 @@ header {
 
 .popular-column .title {
   padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popular-column .title .title-option {
+  cursor: pointer;
+  padding: 0 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.popular-column .title .title-option.search-icon {
+  margin-left: auto;
+}
+
+.popular-column .title .search-input {
+  padding: 1px 5px;
+  display: block;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  outline: 0;
 }
 
 .popular-column .popular-list.heading {
@@ -173,7 +197,7 @@ header {
 }
 
 .popular-list .popular-item {
-  height: 44px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -305,7 +329,9 @@ header {
 }
 
 .auth-field i {
-  width: 15px;
+  width: 18px;
+  display: flex;
+  justify-content: center;
 }
 
 .auth-field .auth-field-input {
@@ -370,6 +396,7 @@ header {
 
 .recommend-container .title {
   margin: 20px auto;
+  height: 32px;
 }
 
 .books-container div, .movies-container div {
@@ -381,8 +408,25 @@ header {
   height: 724px;
 }
 
-.recommend-container .popular-column.seen-column {
+.recommend-container .popular-column.seen-column, .recommend-container .popular-column.search-column {
   overflow: auto;
+}
+
+.popular-column .title .movie-search-options {
+  cursor: pointer;
+}
+
+.popular-column .title .movie-search-options .text {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100px;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 5px 8px;
+}
+
+.popular-column .title .movie-search-options i {
+  margin-left: 5px;
 }
 
 /* Common */

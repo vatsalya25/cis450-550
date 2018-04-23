@@ -1,21 +1,33 @@
-<div class="recommend-container w3-container" ng-controller="RecommendController">
-	<h2 class="title">My Recommendations</h2>
+<div class="recommend-container w3-container" ng-controller="RecommendController as $ctrl">
+	<h2 class="title w3-center">My Recommendations</h2>
+
+	<!-- BOOKS -->
 	<div class="books-container">
 		<h4 class="title">Books</h4>
 		<div class="w3-container w3-light-grey">
-			<div class="w3-half popular-column seen-column w3-container w3-white">
-				<h3 class="title w3-margin-bottom w3-margin-top">Books I've Read</h3>
-				<div class="popular-list heading w3-margin-bottom w3-margin-top">
+
+			<!-- BOOK SEARCH -->
+			<div class="popular-column search-column w3-half w3-container w3-white" ng-if="bookSearch">
+				<div class="title w3-margin-bottom w3-margin-top">
+					<input id="searchBook" type="text" class="search-input book-search-input" ng-model="$parent.bookSearchInput" />
+					<div class="title-option search-icon w3-hover-text-red" ng-click="performSearch('book')">
+						<i class="fa fa-lg fa-search"></i>
+					</div>
+					<div class="title-option w3-hover-text-red" ng-click="closeSearch('book')">
+						<i class="fa fa-lg fa-close"></i>
+					</div>
+				</div>
+				<div class="popular-list heading w3-margin-top">
 					<div class="popular-item">
 						<div class="text">Name</div>
-						<div class="rating-title">Your rating</div>
+						<div class="rating-title">My rating</div>
 						<div class="global-rating">Overall</div>
 					</div>
 				</div>
-				<div class="popular-list w3-margin-bottom w3-margin-top">
-					<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in readlist">
+				<div class="popular-list book-search-list w3-margin-bottom">
+					<div class="popular-item w3-hover-light-grey" ng-repeat="item in bookSearchList">
 						<div class="text">{{item.name}}</div>
-						<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
+						<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5" ng-if="!newUser">
 							<div class="star-container">
 								<div class="star" ng-click="rateBook(item.index, 1)">
 									<i class="star-empty"></i>
@@ -43,19 +55,73 @@
 					</div>
 				</div>
 			</div>
-			<div class="w3-half popular-column movie-column w3-container w3-white">
-				<h3 class="title w3-margin-bottom w3-margin-top">Recommended Books</h3>
-				<div class="popular-list heading w3-margin-bottom w3-margin-top">
+
+			<!-- READ BOOKS -->
+			<div class="popular-column seen-column w3-half w3-container w3-white" ng-if="!bookSearch">
+				<h3 class="title w3-margin-bottom w3-margin-top">
+					<div>Books I've Read</div>
+					<div class="title-option w3-hover-text-red" ng-click="activateSearch('book')">
+						<i class="fa fa-lg fa-plus"></i>
+					</div>
+				</h3>
+				<div class="popular-list heading w3-margin-top">
 					<div class="popular-item">
 						<div class="text">Name</div>
-						<div class="rating-title">Your rating</div>
+						<div class="rating-title">My rating</div>
 						<div class="global-rating">Overall</div>
 					</div>
 				</div>
-				<div class="popular-list w3-margin-bottom w3-margin-top">
-					<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in recommendedBooks">
+				<div class="popular-list w3-margin-bottom">
+					<div class="popular-item w3-hover-light-grey" ng-repeat="item in readlist">
 						<div class="text">{{item.name}}</div>
-						<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
+						<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5" ng-if="!newUser">
+							<div class="star-container">
+								<div class="star" ng-click="rateBook(item.index, 1)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateBook(item.index, 2)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateBook(item.index, 3)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateBook(item.index, 4)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateBook(item.index, 5)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+							</div>
+						</div>
+						<div class="global-rating">{{item.rating}}</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- RECOMMENDED BOOKS -->
+			<div class="popular-column movie-column w3-half w3-container w3-white">
+				<h3 class="title w3-margin-bottom w3-margin-top">
+					<div>Recommended Books</div>
+					<div class="title-option w3-hover-text-red" ng-click="updateList('book')">
+						<i class="fa fa-lg fa-refresh"></i>
+					</div>
+				</h3>
+				<div class="popular-list heading w3-margin-top">
+					<div class="popular-item">
+						<div class="text">Name</div>
+						<div class="rating-title">My rating</div>
+						<div class="global-rating">Overall</div>
+					</div>
+				</div>
+				<div class="popular-list book-list w3-margin-bottom">
+					<div class="popular-item w3-hover-light-grey" ng-repeat="item in recommendedBooks">
+						<div class="text">{{item.name}}</div>
+						<div id="bookRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5" ng-if="!newUser">
 							<div class="star-container">
 								<div class="star" ng-click="rateBook(item.index, 1)">
 									<i class="star-empty"></i>
@@ -85,20 +151,90 @@
 			</div>
 		</div>
 	</div>
+
+
+	<!-- MOVIES -->
 	<div class="movies-container">
 		<h4 class="title">Movies</h4>
 		<div class="w3-container w3-light-grey">
-			<div class="w3-half popular-column seen-column w3-container w3-white">
-				<h3 class="title w3-margin-bottom w3-margin-top">Movies I've watched</h3>
-				<div class="popular-list heading w3-margin-bottom w3-margin-top">
+
+			<!-- MOVIE SEARCH -->
+			<div class="popular-column search-column w3-half w3-container w3-white" ng-if="movieSearch">
+				<div class="title w3-margin-bottom w3-margin-top">
+					<input id="searchMovie" type="text" class="search-input movie-search-input" ng-model="$parent.movieSearchInput" />
+					<!-- <div class="movie-search-options" ng-click="toggleMovieDropdown()">
+						<div class="text w3-hover-text-red">
+							<div id="movieDropdownSelected">Movies</div>
+							<i class="fa fa-lg fa-angle-down"></i>
+						</div>
+						<div id="movieDropdown" class="dropdown-options w3-dropdown-content w3-bar-block w3-light-grey">
+							<div class="option w3-bar-item w3-hover-text-red" ng-click="selectDropdownOption('Movies')">Movies</div>
+							<div class="option w3-bar-item w3-hover-text-red" ng-click="selectDropdownOption('TV Series')">TV Series</div>
+						</div>
+					</div> -->
+					<div class="title-option search-icon w3-hover-text-red" ng-click="performSearch('movie')">
+						<i class="fa fa-lg fa-search"></i>
+					</div>
+					<div class="title-option w3-hover-text-red" ng-click="closeSearch('movie')">
+						<i class="fa fa-lg fa-close"></i>
+					</div>
+				</div>
+				<div class="popular-list heading w3-margin-top">
 					<div class="popular-item">
 						<div class="text">Name</div>
-						<div class="rating-title">Your rating</div>
+						<div class="rating-title">My rating</div>
 						<div class="global-rating">Overall</div>
 					</div>
 				</div>
-				<div class="popular-list w3-margin-bottom w3-margin-top">
-					<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in watchlist">
+				<div class="popular-list movie-search-list w3-margin-bottom">
+					<div class="popular-item w3-hover-light-grey" ng-repeat="item in movieSearchList">
+						<div class="text">{{item.name}}</div>
+						<div id="movieRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5" ng-if="!newUser">
+							<div class="star-container">
+								<div class="star" ng-click="rateMovie(item.index, 1)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 2)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 3)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 4)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+								<div class="star" ng-click="rateMovie(item.index, 5)">
+									<i class="star-empty"></i>
+									<i class="star-filled"></i>
+								</div>
+							</div>
+						</div>
+						<div class="global-rating">{{item.rating}}</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- MOVIE WATCHLIST -->
+			<div class="popular-column seen-column w3-half w3-container w3-white" ng-if="!movieSearch">
+				<h3 class="title w3-margin-bottom w3-margin-top">
+					<div>Movies/TV Series I've watched</div>
+					<div class="title-option w3-hover-text-red" ng-click="activateSearch('movie')">
+						<i class="fa fa-lg fa-plus"></i>
+					</div>
+				</h3>
+				<div class="popular-list heading w3-margin-top">
+					<div class="popular-item">
+						<div class="text">Name</div>
+						<div class="rating-title">My rating</div>
+						<div class="global-rating">Overall</div>
+					</div>
+				</div>
+				<div class="popular-list w3-margin-bottom">
+					<div class="popular-item w3-hover-light-grey" ng-repeat="item in watchlist">
 						<div class="text">{{item.name}}</div>
 						<div id="movieRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
 							<div class="star-container">
@@ -128,17 +264,24 @@
 					</div>
 				</div>
 			</div>
-			<div class="w3-half popular-column movie-column w3-container w3-white">
-				<h3 class="title w3-margin-bottom w3-margin-top">Recommended Movies</h3>
-				<div class="popular-list heading w3-margin-bottom w3-margin-top">
+
+			<!-- RECOMMENDED MOVIES -->
+			<div class="popular-column movie-column w3-half w3-container w3-white">
+				<h3 class="title w3-margin-bottom w3-margin-top">
+					<div>Recommended Movies</div>
+					<div class="title-option w3-hover-text-red" ng-click="updateList('movie')">
+						<i class="fa fa-lg fa-refresh"></i>
+					</div>
+				</h3>
+				<div class="popular-list heading w3-margin-top">
 					<div class="popular-item">
 						<div class="text">Name</div>
-						<div class="rating-title">Your rating</div>
+						<div class="rating-title">My rating</div>
 						<div class="global-rating">Overall</div>
 					</div>
 				</div>
-				<div class="popular-list w3-margin-bottom w3-margin-top">
-					<div class="popular-item w3-margin-bottom w3-hover-light-grey" ng-repeat="item in recommendedMovies">
+				<div class="popular-list movie-list w3-margin-bottom">
+					<div class="popular-item w3-hover-light-grey" ng-repeat="item in recommendedMovies">
 						<div class="text">{{item.name}}</div>
 						<div id="movieRating{{item.index}}" class="rating small space-between color-negative star-icon value-0 hover hover-5">
 							<div class="star-container">

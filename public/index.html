@@ -28,6 +28,7 @@
 
 	<!-- ANGULAR CUSTOM -->
 	<script src="js/controllers/MainCtrl.js"></script>
+	<script src="js/controllers/HeaderCtrl.js"></script>
 	<script src="js/controllers/LoginCtrl.js"></script>
 	<script src="js/services/LoginService.js"></script>
 	<script src="js/controllers/RecommendCtrl.js"></script>
@@ -38,25 +39,28 @@
 </head>
 
 <body class="home w3-light-grey" ng-app="sampleApp">
-	<header class="w3-bar w3-white w3-border-bottom w3-xlarge">
-		<a href="/" class="w3-bar-item w3-button w3-text-red w3-hover-red">
-			<b><i class="fa fa-map-marker w3-margin-right"></i>GoodSuggest</b>
-		</a>
-		<div class="nav-account w3-bar-item w3-button w3-right w3-hover-red w3-text-grey" ng-click="toggleAccountOptions()" ng-controller="MainController">
-			<i class="fa fa-user"></i>
-			<div>Account</div>
+	<header class="w3-bar w3-white w3-border-bottom w3-xlarge" ng-controller="HeaderController">
+		<div>
+			<a href="/" class="w3-bar-item w3-button w3-text-red w3-hover-red">
+				<b><i class="fa fa-map-marker w3-margin-right"></i>GoodSuggest</b>
+			</a>
+			<div class="nav-account w3-bar-item w3-button w3-right w3-hover-red w3-text-grey" ng-click="toggleAccountOptions()">
+				<i class="fa fa-user"></i>
+				<div id="userName">Account</div>
+			</div>
 		</div>
+
+		<!-- Account options -->
+		<ul id="newUserOptions" class="account-options hidden w3-white">
+			<li class="option w3-hover-red" ng-click="toggleLogin()">Login</li>
+		</ul>
+
+		<ul id="registeredUserOptions" class="account-options hidden w3-white">
+			<li class="option w3-hover-red" ng-click="myRecommend()">My Recommendations</li>
+			<li class="option w3-hover-red" ng-click="logout()">Log out</li>
+		</ul>
 	</header>
 
-	<!-- Account options -->
-	<ul id="newUserOptions" class="account-options hidden w3-white">
-		<li class="option w3-hover-red"><a href="/login" ng-click="toggleLogin()">Login</a></li>
-	</ul>
-
-	<ul id="registeredUserOptions" class="account-options hidden w3-white" ng-controller="LoginController">
-		<li class="option w3-hover-red"><a href="/recommend">My Recommendations</a></li>
-		<li class="option w3-hover-red" ng-click="logout()">Log out</li>
-	</ul>
 
 	<!-- ANGULAR DYNAMIC CONTENT -->
 	<div ng-view></div>
