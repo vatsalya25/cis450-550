@@ -127,6 +127,12 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         $scope.popularMovies = data.data.movies;
         $scope.bookResultEmpty = false;
         $scope.movieResultEmpty = false;
+        if($scope.popularBooks.length === 0) {
+          $scope.bookResultEmpty = true;
+        }
+        if($scope.popularMovies.length === 0) {
+          $scope.movieResultEmpty = true;
+        }
         console.log($scope.popularBooks, $scope.popularMovies);
       }).catch(function(data) {
         console.log('recommendWhenBooks search err ', data);
@@ -156,6 +162,12 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
           $scope.popularMovies = data.data.movies;
           $scope.bookResultEmpty = false;
           $scope.movieResultEmpty = false;
+          if($scope.popularBooks.length === 0) {
+            $scope.bookResultEmpty = true;
+          }
+          if($scope.popularMovies.length === 0) {
+            $scope.movieResultEmpty = true;
+          }
           console.log($scope.popularBooks, $scope.popularMovies);
         }).catch(function(data) {
           console.log('recommendWhenBooks search err ', data);
@@ -182,6 +194,12 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         $scope.popularMovies = data.data.movies;
         $scope.bookResultEmpty = false;
         $scope.movieResultEmpty = false;
+        if($scope.popularBooks.length === 0) {
+          $scope.bookResultEmpty = true;
+        }
+        if($scope.popularMovies.length === 0) {
+          $scope.movieResultEmpty = true;
+        }
         console.log($scope.popularBooks, $scope.popularMovies);
       }).catch(function(data) {
         console.log('recommendWhenBooks search err ', data);
@@ -211,6 +229,12 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
           $scope.popularMovies = data.data.movies;
           $scope.bookResultEmpty = false;
           $scope.movieResultEmpty = false;
+          if($scope.popularBooks.length === 0) {
+            $scope.bookResultEmpty = true;
+          }
+          if($scope.popularMovies.length === 0) {
+            $scope.movieResultEmpty = true;
+          }
           console.log($scope.popularBooks, $scope.popularMovies);
         }).catch(function(data) {
           console.log('recommendWhenMovies search err ', data);
@@ -233,6 +257,12 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
         $scope.popularMovies = data.data.movies;
         $scope.bookResultEmpty = false;
         $scope.movieResultEmpty = false;
+        if($scope.popularBooks.length === 0) {
+          $scope.bookResultEmpty = true;
+        }
+        if($scope.popularMovies.length === 0) {
+          $scope.movieResultEmpty = true;
+        }
         console.log($scope.popularBooks, $scope.popularMovies);
       }).catch(function(data) {
         console.log('recommendWhenBooks search err ', data);
@@ -262,6 +292,12 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ht
           $scope.popularMovies = data.data.movies;
           $scope.bookResultEmpty = false;
           $scope.movieResultEmpty = false;
+          if($scope.popularBooks.length === 0) {
+            $scope.bookResultEmpty = true;
+          }
+          if($scope.popularMovies.length === 0) {
+            $scope.movieResultEmpty = true;
+          }
           console.log($scope.popularBooks, $scope.popularMovies);
         }).catch(function(data) {
           console.log('recommendWhenMovies search err ', data);
